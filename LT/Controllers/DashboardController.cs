@@ -23,7 +23,7 @@ namespace LT.Controllers
             _utilities = utilities;
         }
 
-        public IActionResult Home()
+        public IActionResult Home()//comment
         {
             return View();
         }
