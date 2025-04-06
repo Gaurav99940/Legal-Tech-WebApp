@@ -1,0 +1,18 @@
+[
+  {
+    "ContainingType": "LT.Controllers.ChatGPTController",
+    "Method": "AskChatBot",
+    "RelativePath": "ChatGPT/AskChatBot",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "LT.Controllers.ChatGPTController\u002BQueryRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

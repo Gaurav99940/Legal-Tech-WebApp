@@ -1,0 +1,99 @@
+/* _content/LT/Views/Shared/_Layout.cshtml.rz.scp.css */
+/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand[b-p6jmwl9lr9] {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+a[b-p6jmwl9lr9] {
+    color: #0077cc;
+}
+
+.btn-primary[b-p6jmwl9lr9] {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active[b-p6jmwl9lr9], .nav-pills .show > .nav-link[b-p6jmwl9lr9] {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.border-top[b-p6jmwl9lr9] {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom[b-p6jmwl9lr9] {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow[b-p6jmwl9lr9] {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy[b-p6jmwl9lr9] {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+.footer[b-p6jmwl9lr9] {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+}
+/*Custome CSS*/
+body[b-p6jmwl9lr9] {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa; /* Light grey background */
+}
+
+.navbar[b-p6jmwl9lr9] {
+    background-color: #354259; /* Dark navy */
+}
+
+.navbar-brand h3[b-p6jmwl9lr9] {
+    color: #eaf2f8; /* Soft white text */
+}
+
+.navbar .nav-link[b-p6jmwl9lr9] {
+    color: #eaf2f8;
+}
+
+.nav-link:hover[b-p6jmwl9lr9] {
+    color: #ffc107; /* Amber on hover */
+}
+
+
+.main-menu[b-p6jmwl9lr9] {
+    background-color: #ff6f61; /* Coral */
+    color: white;
+}
+
+    .main-menu a[b-p6jmwl9lr9] {
+        color: #fff;
+    }
+
+        .main-menu a:hover[b-p6jmwl9lr9] {
+            color: #354259; /* Navy on hover */
+        }
+
+.breadcrumb[b-p6jmwl9lr9] {
+    background: transparent;
+}
+
+.content-wrapper[b-p6jmwl9lr9] {
+    padding: 20px;
+}
+
+footer[b-p6jmwl9lr9] {
+    background-color: #354259;
+    color: white;
+    padding: 10px 0;
+}

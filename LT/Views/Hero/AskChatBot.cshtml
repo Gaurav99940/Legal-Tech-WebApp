@@ -1,0 +1,97 @@
+﻿@{
+    ViewData["Title"] = "ChatBot - Legal Tech";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<!-- Chatbot View -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <!-- Chatbot Window -->
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h4>Legal Tech Chatbot</h4>
+                </div>
+                <div class="card-body">
+                    <div id="chatbox" class="overflow-auto" style="max-height: 400px;">
+                        <!-- Chat messages will be appended here dynamically -->
+                    </div>
+                    <div class="mt-3">
+                        <!-- User input -->
+                        <form id="chatForm">
+                            <div class="input-group">
+                                <input type="text" id="userQuery" class="form-control" placeholder="Ask me something..." required />
+                                <button class="btn btn-primary" type="submit">Send</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
+    <script>
+        $(document).ready(function () {
+            // Handling chat interaction on form submission
+            $('#chatForm').on('submit', function (e) {
+                e.preventDefault();
+
+                const userQuery = $('#userQuery').val();
+                if (!userQuery) return;
+
+                // Append user query to chatbox
+                appendMessage('You', userQuery);
+
+                // Clear input field
+                $('#userQuery').val('');
+
+                // Send user query to the backend using Ajax
+                $.ajax({
+                    url: '/ChatGPT/AskChatBot',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ query: userQuery }),
+                    success: function (data) {
+                        // Display bot response
+                        if (data.error) {
+                            appendMessage('Bot', data.error);
+                        } else {
+                            appendMessage('Bot', data.description || 'I could not find the details for the given Constitution Number.');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        appendMessage('Bot', 'An error occurred while processing your request.');
+                    }
+                });
+            });
+
+            // Function to append messages to chatbox
+            function appendMessage(sender, message) {
+                const messageDiv = $('<div class="mb-2"></div>');
+                messageDiv.html(`<strong>${sender}:</strong> ${message}`);
+
+                console.log("Bot message received: " + message); // Log the bot's message
+
+                // If the message is from the bot, append the "Book your Advocate" button
+                if (sender === 'Bot') {
+                    const bookButton = $('<br/><strong class="mt-2">Book your Advocate today</strong> <button class="btn btn-custome-purple text-white">Book now</button>');
+                    bookButton.on('click', function () {
+                        console.log("Button clicked! Redirecting to booking page.");
+                        window.location.href = '/booking'; // Redirect to booking page
+                    });
+                    messageDiv.append(bookButton);
+                }
+
+                // Append the message div to chatbox
+                $('#chatbox').append(messageDiv);
+                $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight); // Scroll to bottom
+            }
+
+
+        });
+    </script>
+}

@@ -1,0 +1,6 @@
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Database\bin\Debug\LT.Database.dacpac
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Database\bin\Debug\LT.Database.dll
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Database\bin\Debug\LT.Database.pdb
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Database\obj\Debug\LT.Database.sqlproj.AssemblyReference.cache
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Database\obj\Debug\LT.Database.dll
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Database\obj\Debug\LT.Database.pdb

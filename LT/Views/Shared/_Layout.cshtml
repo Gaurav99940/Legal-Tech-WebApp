@@ -1,0 +1,139 @@
+﻿@{
+    var userName = Context.Request.HttpContext.Session.GetString("name");
+    var menuItems = Context.Request.HttpContext.Session.GetString("menuitem");
+    var copyRightContent = Context.Request.HttpContext.Session.GetString("copyRightContent");
+    var profilepicture = Context.Request.HttpContext.Session.GetString("profilepicture");
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="Robust admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template.">
+    <meta name="keywords" content="Ethical Web Solution ci, Ethical Web Solution">
+    <meta name="author" content="Ethical Web Solution CI">
+    <title>@ViewData["Title"] - LT</title>
+    <link rel="apple-touch-icon" href="/images/fevicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/images/fevicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CMuli:300,400,500,700" rel="stylesheet">
+
+
+    <!--BEGIN VENDOR CSS -->
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/vendors.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/file-uploaders/dropzone.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/charts/jquery-jvectormap-2.0.3.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/charts/morris.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/extensions/unslider.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/weather-icons/climacons.min.css">
+    <!-- END VENDOR CSS-->
+    <!-- BEGIN ROBUST CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/core/menu/menu-types/vertical-menu.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/core/colors/palette-gradient.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/timeline.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/plugins/file-uploaders/dropzone.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/core/colors/palette-climacon.css">
+    <link rel="stylesheet" type="text/css" href="~/app-assets/vendors/css/charts/c3.css">
+    <!-- END ROBUST CSS-->
+    <!-- BEGIN Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/forms/selects/select2.min.css">
+    <!-- END Custom CSS-->
+</head>
+<body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-col="2-columns">
+    <nav class="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top navbar-semi-dark navbar-shadow">
+        <div class="navbar-wrapper">
+            <div class="navbar-header nav-bg">
+                <ul class="nav navbar-nav flex-row">
+                    <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a></li>
+                    <li class="nav-item">
+                        <a class="navbar-brand" href="#">
+                            <img class="brand-logo" alt="Legal Tech Logo" style="width:30px;" src="/images/fevicon.ico">
+                            <h3 class="brand-text">Legal Tech</h3>
+                        </a>
+                    </li>
+                    <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse" data-target="#navbar-mobile"><i class="fa fa-ellipsis-v"></i></a></li>
+                </ul>
+            </div>
+            <div class="navbar-container content">
+                <div class="collapse navbar-collapse" id="navbar-mobile">
+                    <ul class="nav navbar-nav mr-auto float-left">
+                        <li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu">         </i></a></li>
+
+                    </ul>
+                    <ul class="nav navbar-nav float-right">
+                        <li class="dropdown dropdown-user nav-item">
+                            <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
+                                <span class="avatar avatar-online"><img src="/avtar/@profilepicture" alt="@userName"><i></i></span><span class="user-name">
+                                    @userName
+                                </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                @* <a class="dropdown-item" asp-controller="Profile" asp-action="User"><i class="ft-user"></i> Edit Profile</a>
+                                <div class="dropdown-divider"></div>*@
+                                <a class="dropdown-item" asp-controller="Home" asp-action="logout"><i class="ft-power"></i> Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="main-menu menu-fixed menu-dark menu-accordion    menu-shadow " data-scroll-to-active="true">
+        <div class="main-menu-content">
+            @Html.Raw(menuItems)
+        </div>
+    </div>
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
+                    <div class="row breadcrumbs-top d-inline-block">
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="#">@ViewData["ParentTitle"]</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    @ViewData["Title"]
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            @RenderBody()
+        </div>
+    </div>
+    <footer class="footer footer-static footer-dark navbar-border">
+        <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2">
+            <span class="float-md-left d-block d-md-inline-block">
+                @Html.Raw(copyRightContent)
+            </span>
+        </p>
+    </footer>
+    <!-- BEGIN VENDOR JS-->
+    <script src="/app-assets/vendors/js/vendors.min.js"></script>
+    <!-- BEGIN VENDOR JS-->
+    <!-- BEGIN PAGE VENDOR JS-->
+    <script src="~/app-assets/vendors/js/charts/d3.min.js"></script>
+    <script src="~/app-assets/vendors/js/charts/c3.min.js"></script>
+    <script src="/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <!-- END PAGE VENDOR JS-->
+    <!-- BEGIN ROBUST JS-->
+    <script src="/app-assets/js/core/app-menu.js"></script>
+    <script src="/app-assets/js/core/app.js"></script>
+    <!-- END ROBUST JS-->
+    <script src="/app-assets/js/scripts/forms/select/form-select2.js"></script>
+    <script src="~/app-assets/vendors/js/charts/raphael-min.js"></script>
+    <script src="~/app-assets/vendors/js/charts/morris.min.js"></script>
+    <script src="~/app-assets/vendors/js/charts/chart.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/custom/switch.css">
+    <!-- jQuery library -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @* <script src="~/custom/logincheck.js"></script> *@
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

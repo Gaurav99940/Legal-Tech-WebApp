@@ -1,0 +1,105 @@
+﻿@model LT.Model.ViewModels.UserSignUp
+@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="Robust admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template.">
+    <meta name="keywords" content="Ethcial Web Solution">
+    <meta name="author" content="Ethcial Web Solution">
+    <title>Login : Ethcial Web Solution</title>
+    <link rel="apple-touch-icon" href="images/fevicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="images/fevicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CMuli:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/vendors.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/app.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+
+<body class="vertical-layout vertical-menu 1-column  bg-full-screen-image menu-expanded blank-page blank-page" data-open="click" data-menu="vertical-menu" data-col="1-column">
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-header row">
+            </div>
+            <div class="content-body">
+                <section class="flexbox-container">
+                    <div class="col-12 d-flex align-items-center justify-content-center">
+                        <div class="col-md-4 col-10 box-shadow-2 p-0">
+                            <div class="card border-grey border-lighten-3 px-1 py-1 m-0">
+                                <div class="card-header border-0">
+                                    <div class="card-title text-center">
+                                        <img src="images/logo.png" style="width:50%" alt="branding logo">
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>Legal Tech Solution Portal</span></p>
+                                    <div class="card-body">
+                                        @if (ViewBag.Message != null)
+                                        {
+                                            <p class="alert alert-warning">@ViewBag.Message</p>
+                                        }
+
+                                        <form class="form-horizontal" method="post" asp-controller="Home" asp-action="SignUp" autocomplete="off">
+                                            @if (ViewBag.PlainText == "1")
+                                            {
+                                                <fieldset class="form-group position-relative has-icon-left">
+                                                    <input asp-for="firstName" type="text" class="form-control" name="firstName" placeholder="Enter First Name">
+                                                    <div class="form-control-position">
+                                                        <i class="ft-user icon-purple"></i>
+                                                    </div>
+                                                </fieldset>
+                                                <fieldset class="form-group position-relative has-icon-left">
+                                                    <input asp-for="lastName" type="text" class="form-control" name="lastName" placeholder="Enter Last Name">
+                                                    <div class="form-control-position">
+                                                        <i class="ft-user icon-purple"></i>
+                                                    </div>
+                                                </fieldset>
+                                                <fieldset class="form-group position-relative has-icon-left">
+                                                    <input asp-for="email" type="email" class="form-control" name="email" placeholder="Enter Email ID">
+                                                    <div class="form-control-position">
+                                                        <i class="ft-user icon-purple"></i>
+                                                    </div>
+                                                </fieldset>
+                                                <fieldset class="form-group position-relative has-icon-left">
+                                                    <input asp-for="password" type="password" class="form-control" name="password" placeholder="Enter Password">
+                                                    <div class="form-control-position">
+                                                        <i class="fa fa-key icon-purple"></i>
+                                                    </div>
+                                                </fieldset>
+                                                <button type="submit" class="btn btn-outline-custome btn-block"><i class="ft-unlock"></i> Sign-Up</button>
+                                                <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>Already have an account <a asp-controller="Home" asp-action="Index">Login here</a></span></p>
+                                            }
+                                            @if (ViewBag.SSO == "1")
+                                            {
+                                                <a asp-controller="Home" asp-action="SignUp" class="btn btn-outline-info btn-block">
+                                                    <i class="ft-unlock"></i><span> Login with Microsoft Account</span>
+                                                </a>
+                                            }
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    @* <input type="hidden" id="isAuthenticated" value="@User.Identity.IsAuthenticated.ToString()" /> *@
+    <script src="~/app-assets/vendors/js/vendors.min.js"></script>
+   @*  <script>
+        $(document).ready(function () {
+            if ($("#isAuthenticated").val().toString() == "True")
+                window.location.href = "/Dashboard/Home";
+        });
+    </script> *@
+</body>
+
+</html>

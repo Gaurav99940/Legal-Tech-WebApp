@@ -1,0 +1,302 @@
+﻿@model LT.Model.Models.UserCaseModels.UserCourtCaseDetails
+@{
+    ViewData["Title"] = "Add Cases";
+    ViewData["ParentTitle"] = "Case";
+    Layout = "~/Views/Shared/_UserDashboardLayout.cshtml";
+    int totalpages = (int)ViewBag.TotalPages;
+}
+<form asp-action="AddCase" autocomplete="off" enctype="multipart/form-data" id="fileUploadForm" method="post">
+    <div class="content-body">
+        <div class="content-body">
+            <div id="user-profile">
+                <section class="horizontal-grid" id="horizontal-grid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="card-body">
+
+                                        <div class="form-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    @if (ViewBag.successmessage != null)
+                                                    {
+                                                        <p class="alert alert-success">@ViewBag.successmessage</p>
+                                                    }
+                                                    @if (ViewBag.errormessage != null)
+                                                    {
+                                                        <p class="alert alert-danger">@ViewBag.errormessage</p>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            <!--Start-->
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="CaseTitle" class="control-label">Case Title</label>
+                                                        <input asp-for="CaseTitle" class="form-control" />
+                                                        <span asp-validation-for="CaseTitle" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="CaseType" class="control-label">Case Type</label>
+                                                        <input asp-for="CaseType" class="form-control" />
+                                                        <span asp-validation-for="CaseType" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="CourtName" class="control-label">Court's Name</label>
+                                                        <input asp-for="CourtName" class="form-control" />
+                                                        <span asp-validation-for="CourtName" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="FilingDate" class="control-label">Filing Date</label>
+                                                        <input asp-for="FilingDate" class="form-control" type="date" />
+                                                        <span asp-validation-for="FilingDate" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="HearingDate" class="control-label">Hearing Date</label>
+                                                        <input asp-for="HearingDate" class="form-control" type="date" />
+                                                        <span asp-validation-for="HearingDate" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="CaseStatus" class="control-label">Case Status</label>
+                                                        <input asp-for="CaseStatus" class="form-control" />
+                                                        <span asp-validation-for="CaseStatus" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="LawyerName" class="control-label">Lawyer's Name</label>
+                                                        <input asp-for="LawyerName" class="form-control" />
+                                                        <span asp-validation-for="LawyerName" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="OpponentName" class="control-label">Opponent's Name</label>
+                                                        <input asp-for="OpponentName" class="form-control" />
+                                                        <span asp-validation-for="OpponentName" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="OpponentLawyerName" class="control-label">Opponent Lawyer's Name</label>
+                                                        <input asp-for="OpponentLawyerName" class="form-control" />
+                                                        <span asp-validation-for="OpponentLawyerName" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label asp-for="CaseDescription" class="control-label">Case Description</label>
+                                                        <textarea asp-for="CaseDescription" class="form-control" rows="3"></textarea>
+                                                        <span asp-validation-for="CaseDescription" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label asp-for="VerdictDetails" class="control-label">Verdict Details</label>
+                                                        <textarea asp-for="VerdictDetails" class="form-control" rows="3"></textarea>
+                                                        <span asp-validation-for="VerdictDetails" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label asp-for="VerdictDate" class="control-label">Verdict Date</label>
+                                                        <input asp-for="VerdictDate" class="form-control" type="date" />
+                                                        <span asp-validation-for="VerdictDate" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <p>Choose Logo (height and width should be same)</p>
+                                                    <fieldset class="form-group position-relative">
+                                                        <div class="custom-file">
+                                                            <input type="hidden" asp-for="CaseID" />
+                                                            <input asp-for="pdfFile" type="file" class="form-control-file" id="pdfFile" accept="image/*">
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label asp-for="IsActive" class="control-label">Is Active</label>
+                                                        <select asp-for="IsActive" class="form-control">
+                                                            <option value="">Select Status</option>
+                                                            <option value="1">Active</option>
+                                                            <option value="0">Inactive</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label asp-for="Remarks" class="control-label">Remarks</label>
+                                                        <textarea asp-for="Remarks" class="form-control" rows="2"></textarea>
+                                                        <span asp-validation-for="Remarks" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-actions">
+                                                @if (ViewBag.EditMode != "1")
+                                                {
+                                                    <button type="submit" class="btn btn-primary">
+                                                        <i class="fa fa-check-square-o"></i> Save
+                                                    </button>
+                                                }
+                                                else
+                                                {
+                                                    <button type="submit" class="btn btn-primary">
+                                                        <i class="fa fa-check-square-o"></i> Update
+                                                    </button>
+
+                                                    <a href="~/Administrator/UserManagement" class="btn btn-dark">Reset <i class="ft-refresh-cw"></i></a>
+
+                                                    <input type="hidden" asp-for="CaseID" />
+                                                }
+
+                                            </div>
+                                        </div> 
+                                        <!--End-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="horizontal-grid" id="horizontal-grid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Court Cases</h4>
+                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body overflow-auto">
+                                        <table class="table table-striped table-bordered sourced-data">
+                                            <thead>
+                                                <tr>
+                                                    <th>Case Title</th>
+                                                    <th>Case Type</th>
+                                                    <th>Court Name</th>
+                                                    <th>Hearing Date</th>
+                                                    <th>Filing Date</th>
+                                                    <th>Case Status</th>
+                                                    <th>Lawyer Name</th>
+                                                    <th>Opponent Lawyer Name</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (ViewBag.caseList != null)
+                                                {
+                                                    @foreach (var item in ViewBag.caseList)
+                                                    {
+                                                        <tr>
+                                                            <td>@item.CaseTitle</td>
+                                                            <td>@item.CaseType</td>
+                                                            <td>@item.CourtName</td>
+                                                            <td>@item.HearingDate</td>
+                                                            <td>@item.FilingDate</td>
+                                                            <td>@item.CaseStatus</td>
+                                                            <td>@item.LawyerName</td>
+                                                            <td>@item.OpponentLawyerName</td>
+
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row card-body">
+                                        <div class="col-sm-12 col-md-5">
+                                            <div class="dataTables_info" role="status">
+                                                Showing @((ViewBag.CurrentPage - 1) * 5 + 1) to
+                                                @(Math.Min((ViewBag.CurrentPage - 1) * 5 + 5, ViewBag.TotalItems))
+                                                of
+                                                @ViewBag.TotalItems records
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-7">
+                                            <div class="dataTables_paginate paging_simple_numbers" style="font-size:.8em">
+                                                <ul class="pagination" style="float:right;">
+                                                    @if (ViewBag.CurrentPage > 1)
+                                                    {
+                                                        <li class="paginate_button page-item previous">
+                                                            <a asp-action="LogNewInitiative" asp-route-pageIndex="1" asp-route-pageSize="5" class="page-link"><i class="icon-control-start"></i></a>
+                                                        </li>
+                                                        <li class="paginate_button page-item">
+                                                            <a asp-action="LogNewInitiative" asp-route-pageIndex="@(ViewBag.CurrentPage - 1)" asp-route-pageSize="5" class="page-link"><i class="icon-arrow-left"></i></a>
+                                                        </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="paginate_button page-item disabled">
+                                                            <a href="#" class="page-link"><i class="icon-control-start"></i></a>
+                                                        </li>
+                                                        <li class="paginate_button page-item disabled">
+                                                            <a href="#" class="page-link"><i class="icon-arrow-left"></i></a>
+                                                        </li>
+                                                    }
+
+                                                    @for (int i = 0; i < totalpages; i++)
+                                                    {
+                                                        if (ViewBag.CurrentPage == (i + 1))
+                                                        {
+
+                                                            <li class="paginate_button page-item active disabled"><a href="#" class="page-link white">@(i + 1)</a></li>
+                                                        }
+                                                        else
+                                                        {
+                                                            <li class="paginate_button page-item"><a asp-route-pageIndex="@(i+1)" asp-route-pageSize="5" class="page-link">@(i + 1)</a></li>
+                                                        }
+                                                    }
+                                                    @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                                                    {
+                                                        <li class="paginate_button page-item"><a asp-action="LogNewInitiative" asp-route-pageIndex="@(ViewBag.CurrentPage + 1)" asp-route-pageSize="5" class="page-link"><i class="icon-arrow-right"></i></a></li>
+                                                        <li class="paginate_button page-item next"><a asp-action="LogNewInitiative" asp-route-pageIndex="@ViewBag.TotalPages" asp-route-pageSize="5" class="page-link"><i class="icon-control-end"></i></a></li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="paginate_button page-item disabled"><a href="#" class="page-link"><i class="icon-arrow-right"></i></a></li>
+                                                        <li class="paginate_button page-item next disabled"><a href="#" class="page-link"><i class="icon-control-end"></i></a></li>
+                                                    }
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</form>

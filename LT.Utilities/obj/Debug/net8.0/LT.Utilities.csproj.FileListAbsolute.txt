@@ -1,0 +1,13 @@
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Utilities\bin\Debug\net8.0\LT.Utilities.deps.json
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Utilities\bin\Debug\net8.0\LT.Utilities.dll
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Utilities\bin\Debug\net8.0\LT.Utilities.pdb
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Utilities\obj\Debug\net8.0\LT.Utilities.csproj.AssemblyReference.cache
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Utilities\obj\Debug\net8.0\LT.Utilities.GeneratedMSBuildEditorConfig.editorconfig
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Utilities\obj\Debug\net8.0\LT.Utilities.AssemblyInfoInputs.cache
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Utilities\obj\Debug\net8.0\LT.Utilities.AssemblyInfo.cs
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Utilities\obj\Debug\net8.0\LT.Utilities.csproj.CoreCompileInputs.cache
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Utilities\obj\Debug\net8.0\LT.Utilities.sourcelink.json
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Utilities\obj\Debug\net8.0\LT.Utilities.dll
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Utilities\obj\Debug\net8.0\refint\LT.Utilities.dll
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Utilities\obj\Debug\net8.0\LT.Utilities.pdb
+E:\legal-tech-project\legtal-tech-web-app\Legal-Tech-WebApp\LT.Utilities\obj\Debug\net8.0\ref\LT.Utilities.dll

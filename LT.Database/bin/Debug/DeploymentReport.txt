@@ -1,0 +1,22 @@
+﻿** Highlights
+     Tables that will be recreated with data migrated
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[Menu] (Table)
+       [dbo].[RoleMenuMapping] (Table)
+       [dbo].[Roles] (Table)
+       [dbo].[UserCourtCaseDetails] (Table)
+       [dbo].[Users] (Table)
+       [dbo].[UserSession] (Table)
+       Default Constraint: <unnamed> (Default Constraint)
+       Default Constraint: <unnamed> (Default Constraint)
+
+** Supporting actions
