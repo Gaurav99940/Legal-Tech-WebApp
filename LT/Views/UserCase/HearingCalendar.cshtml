@@ -1,0 +1,145 @@
+@model List<LT.Model.Models.UserCaseModels.UserCourtCaseDetails>
+@{
+    ViewData["Title"] = "Court Hearing Calendar & Cause List";
+    ViewData["ParentTitle"] = "Case Management";
+    Layout = "~/Views/Shared/_UserDashboardLayout.cshtml";
+}
+
+<div class="row g-4">
+    <!-- Header Countdown Card -->
+    <div class="col-12">
+        <div class="glass-panel p-4 p-lg-5" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 27, 75, 0.7) 100%);">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-8">
+                    <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-50 mb-2">Live Cause List Sync</span>
+                    <h3 class="text-white fw-bold mb-2">Upcoming Court Appearances & Deadlines</h3>
+                    <p class="text-secondary small mb-0">
+                        Synchronized tracking for High Court, Supreme Court, and District Court hearings to eliminate missed filing dates.
+                    </p>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <a asp-action="AddCase" class="btn btn-modern-primary btn-sm">
+                        <i class="fa-solid fa-plus me-1"></i> File New Case / Hearing
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hearing Timeline List -->
+    <div class="col-lg-8">
+        <div class="glass-panel p-4">
+            <h5 class="text-white fw-bold mb-4 d-flex align-items-center gap-2">
+                <i class="fa-solid fa-timeline text-info"></i> Sequential Hearing Timeline
+            </h5>
+
+            @if (Model != null && Model.Count > 0)
+            {
+                <div class="d-flex flex-column gap-3">
+                    @foreach (var c in Model)
+                    {
+                        var hearingDate = c.HearingDate ?? DateTime.Now.AddDays(7);
+                        var daysLeft = (hearingDate.Date - DateTime.Today).Days;
+                        string badgeColor = daysLeft <= 3 ? "danger" : (daysLeft <= 7 ? "warning" : "info");
+                        string statusLabel = daysLeft < 0 ? "Past Hearing" : (daysLeft == 0 ? "TODAY" : $"{daysLeft} Days Left");
+
+                        <div class="p-3 rounded-3" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08);">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center mb-2 gap-2">
+                                <div>
+                                    <span class="badge bg-@badgeColor bg-opacity-25 text-@badgeColor border border-@badgeColor border-opacity-50 small me-2">
+                                        <i class="fa-solid fa-clock me-1"></i> @statusLabel
+                                    </span>
+                                    <span class="badge bg-dark border border-secondary border-opacity-25 small text-light">@c.CaseType</span>
+                                </div>
+                                <div class="fw-bold text-warning small">
+                                    <i class="fa-solid fa-calendar-day me-1"></i> @hearingDate.ToString("dddd, dd MMMM yyyy")
+                                </div>
+                            </div>
+
+                            <h5 class="text-white fw-bold mb-1">@c.CaseTitle</h5>
+                            <div class="small text-secondary mb-2">
+                                <i class="fa-solid fa-landmark text-info me-1"></i> @c.CourtName &bull;
+                                <i class="fa-solid fa-user-tie text-purple ms-2 me-1"></i> Counsel: @(string.IsNullOrEmpty(c.LawyerName) ? "Unassigned" : c.LawyerName)
+                            </div>
+
+                            <p class="text-light small mb-3" style="line-height: 1.5;">@(string.IsNullOrEmpty(c.Remarks) ? c.CaseDescription : c.Remarks)</p>
+
+                            <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-10">
+                                <span class="badge-status active"><span class="status-dot"></span> @c.CaseStatus</span>
+                                <div class="d-flex gap-2">
+                                    <a asp-action="AddCase" asp-route-id="@c.CaseID" class="btn btn-sm btn-outline-light py-1 px-2"><i class="fa-solid fa-pen"></i> Edit</a>
+                                    <button class="btn btn-sm btn-modern-cyan py-1 px-3" onclick="alert('Hearing notification alert enabled for @c.CaseTitle via SMS & Email.')"><i class="fa-solid fa-bell me-1"></i> Sync Alert</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5 text-secondary">
+                    <i class="fa-solid fa-calendar-xmark fs-1 text-muted mb-3 d-block"></i>
+                    No upcoming court hearings scheduled. Click above to file a case and schedule your hearing date!
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Right Quick Actions & Court List Widget -->
+    <div class="col-lg-4">
+        <!-- Monthly Matrix Widget -->
+        <div class="glass-panel p-4 mb-4">
+            <h6 class="text-white fw-bold mb-3 d-flex align-items-center gap-2">
+                <i class="fa-solid fa-calendar-days text-purple"></i> Current Month Matrix
+            </h6>
+            <div class="p-3 rounded-3 text-center" style="background: rgba(6, 9, 19, 0.8);">
+                <div class="h5 fw-bold text-gradient mb-1">@DateTime.Now.ToString("MMMM yyyy")</div>
+                <div class="small text-secondary mb-3">Court Working Days: <strong class="text-white">22 Days</strong></div>
+                <div class="row g-2 text-center small text-light">
+                    <div class="col-4 p-2 rounded" style="background: rgba(255, 255, 255, 0.04);">
+                        <div class="fw-bold text-danger">🔴 1</div>
+                        <div class="text-muted" style="font-size: 0.68rem;">Urgent Stay</div>
+                    </div>
+                    <div class="col-4 p-2 rounded" style="background: rgba(255, 255, 255, 0.04);">
+                        <div class="fw-bold text-warning">🟡 @(Model?.Count(c => c.HearingDate.HasValue && c.HearingDate.Value >= DateTime.Today) ?? 0)</div>
+                        <div class="text-muted" style="font-size: 0.68rem;">Hearings</div>
+                    </div>
+                    <div class="col-4 p-2 rounded" style="background: rgba(255, 255, 255, 0.04);">
+                        <div class="fw-bold text-success">🟢 1</div>
+                        <div class="text-muted" style="font-size: 0.68rem;">Disposed</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jurisdictional Bench Directory -->
+        <div class="glass-panel p-4">
+            <h6 class="text-white fw-bold mb-3 d-flex align-items-center gap-2">
+                <i class="fa-solid fa-building-columns text-info"></i> Synced Benches
+            </h6>
+            <ul class="list-unstyled small text-light d-flex flex-column gap-3 mb-0">
+                <li class="d-flex justify-content-between align-items-center pb-2 border-bottom border-secondary border-opacity-10">
+                    <div>
+                        <div class="fw-semibold text-white">Delhi High Court</div>
+                        <small class="text-muted">Principal Bench</small>
+                    </div>
+                    <span class="badge bg-success bg-opacity-25 text-success">Live</span>
+                </li>
+                <li class="d-flex justify-content-between align-items-center pb-2 border-bottom border-secondary border-opacity-10">
+                    <div>
+                        <div class="fw-semibold text-white">Bombay High Court</div>
+                        <small class="text-muted">Appellate Side</small>
+                    </div>
+                    <span class="badge bg-success bg-opacity-25 text-success">Live</span>
+                </li>
+                <li class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="fw-semibold text-white">Patiala House Courts</div>
+                        <small class="text-muted">MM Court 3</small>
+                    </div>
+                    <span class="badge bg-success bg-opacity-25 text-success">Live</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

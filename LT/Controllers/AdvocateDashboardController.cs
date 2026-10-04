@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LT.Controllers
 {
@@ -6,7 +6,7 @@ namespace LT.Controllers
     {
         public IActionResult Home()
         {
-            return View();
+            return RedirectToAction("Home", "UserDashboard");
         }
     }
 }

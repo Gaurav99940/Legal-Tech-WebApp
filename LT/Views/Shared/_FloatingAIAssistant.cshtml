@@ -1,0 +1,284 @@
+<!-- Floating AI Legal Assistant Widget -->
+<div id="floating-ai-container" style="position: fixed; bottom: 25px; right: 25px; z-index: 9999; font-family: 'Plus Jakarta Sans', sans-serif;">
+    <!-- Floating Trigger Button -->
+    <button id="btnFloatingAIToggle" class="btn d-flex align-items-center gap-2 shadow-lg" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%); color: #ffffff; border: none; border-radius: 50px; padding: 12px 22px; font-weight: 700; box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5); cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);">
+        <div style="width: 28px; height: 28px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center;">
+            <i class="fa-solid fa-wand-magic-sparkles text-white" style="font-size: 0.9rem;"></i>
+        </div>
+        <span class="d-none d-sm-inline" style="font-size: 0.92rem; letter-spacing: 0.3px;">Ask AI Legal</span>
+        <span class="badge bg-success rounded-pill p-1" style="width: 8px; height: 8px;" title="AI Online"></span>
+    </button>
+
+    <!-- Floating Chat Window Popup -->
+    <div id="floating-ai-window" style="display: none; position: fixed; bottom: 85px; right: 25px; width: 400px; max-width: calc(100vw - 35px); height: 560px; max-height: calc(100vh - 120px); background: #0c142b; border: 1px solid rgba(99, 102, 241, 0.4); border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85), 0 0 30px rgba(99, 102, 241, 0.25); flex-direction: column; overflow: hidden; z-index: 10000; animation: floatWidgetIn 0.25s ease-out;">
+        
+        <!-- Header -->
+        <div class="d-flex align-items-center justify-content-between px-3 py-3" style="background: linear-gradient(135deg, #131d3b 0%, #1e1b4b 100%); border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+            <div class="d-flex align-items-center gap-2">
+                <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #6366f1, #d946ef); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);">
+                    <i class="fa-solid fa-scale-balanced text-white" style="font-size: 1rem;"></i>
+                </div>
+                <div>
+                    <div class="fw-bold text-white small d-flex align-items-center gap-1">
+                        <span>LegalTech AI Assistant</span>
+                        <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50" style="font-size: 0.65rem;">Online</span>
+                    </div>
+                    <div class="text-secondary" style="font-size: 0.72rem;">Instant IPC, BNS & Judicial Help</div>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-1">
+                <a href="/AskChatBot" class="btn btn-sm btn-outline-light border-0 p-1 text-secondary hover-white" title="Open Full Screen AI Assistant" target="_blank">
+                    <i class="fa-solid fa-up-right-from-square" style="font-size: 0.85rem;"></i>
+                </a>
+                <button type="button" class="btn btn-sm btn-outline-light border-0 p-1 text-secondary hover-white" id="btnFloatingAIClose" title="Close">
+                    <i class="fa-solid fa-xmark fs-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Quick Prompt Chips Carousel -->
+        <div class="px-3 py-2 border-bottom border-secondary border-opacity-10 d-flex gap-1 overflow-auto" style="background: rgba(6, 9, 19, 0.6); white-space: nowrap; scrollbar-width: none;">
+            <button type="button" class="btn btn-sm py-1 px-2 text-nowrap floating-prompt-chip" onclick="askFloatingAI('302')">Sec 302 IPC</button>
+            <button type="button" class="btn btn-sm py-1 px-2 text-nowrap floating-prompt-chip" onclick="askFloatingAI('420 Cheating & Fraud')">Sec 420 Fraud</button>
+            <button type="button" class="btn btn-sm py-1 px-2 text-nowrap floating-prompt-chip" onclick="askFloatingAI('Cheque Bounce 138')">138 Cheque Bounce</button>
+            <button type="button" class="btn btn-sm py-1 px-2 text-nowrap floating-prompt-chip" onclick="askFloatingAI('Anticipatory Bail 438')">Anticipatory Bail</button>
+            <button type="button" class="btn btn-sm py-1 px-2 text-nowrap floating-prompt-chip" onclick="askFloatingAI('Cyber Crime IT Act 66')">Cyber Crime 66</button>
+            <button type="button" class="btn btn-sm py-1 px-2 text-nowrap floating-prompt-chip" onclick="askFloatingAI('Divorce Mutual Consent')">Mutual Divorce</button>
+        </div>
+
+        <!-- Chat History List -->
+        <div id="floatingAIChatHistory" class="flex-grow-1 p-3 overflow-auto d-flex flex-column gap-3" style="background: #080d1d; scroll-behavior: smooth;">
+            <!-- Welcome Message -->
+            <div class="floating-chat-bubble bot">
+                <div class="d-flex align-items-center gap-1 mb-1">
+                    <i class="fa-solid fa-robot text-info" style="font-size: 0.75rem;"></i>
+                    <strong class="text-white" style="font-size: 0.75rem;">LegalTech AI</strong>
+                    <small class="text-muted ms-auto" style="font-size: 0.65rem;">Now</small>
+                </div>
+                <div class="text-light" style="font-size: 0.85rem; line-height: 1.45;">
+                    Namaste! Ask any legal query, Section number, IPC/BNS clause, or court procedure. I provide statutory guidance 24/7.
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Box Footer -->
+        <div class="p-3 border-top border-secondary border-opacity-20" style="background: #0d152f;">
+            <form id="floatingAIForm" class="d-flex gap-2">
+                <input type="text" id="floatingAIInput" class="form-control modern-input py-2 px-3" placeholder="Ask any legal question..." style="font-size: 0.88rem; background: #080d1d !important;" autocomplete="off" required />
+                <button type="submit" class="btn btn-modern-primary py-2 px-3 d-flex align-items-center justify-content-center" style="min-width: 44px;">
+                    <i class="fa-solid fa-paper-plane" style="font-size: 0.85rem;"></i>
+                </button>
+            </form>
+            <div class="text-center mt-1">
+                <small class="text-muted" style="font-size: 0.68rem;">Backed by Indian statutory codes & judicial precedents</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @@keyframes floatWidgetIn {
+        from { opacity: 0; transform: translateY(15px) scale(0.96); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .floating-prompt-chip {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #cbd5e1 !important;
+        font-size: 0.74rem !important;
+        font-weight: 600;
+        border-radius: 20px;
+        transition: all 0.2s ease;
+    }
+    .floating-prompt-chip:hover {
+        background: rgba(99, 102, 241, 0.35) !important;
+        border-color: #6366f1 !important;
+        color: #ffffff !important;
+    }
+    .floating-chat-bubble {
+        max-width: 90%;
+        padding: 10px 14px;
+        border-radius: 14px;
+        position: relative;
+    }
+    .floating-chat-bubble.user {
+        align-self: flex-end;
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        color: #ffffff;
+        border-bottom-right-radius: 2px;
+    }
+    .floating-chat-bubble.bot {
+        align-self: flex-start;
+        background: #141e3a;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        border-bottom-left-radius: 2px;
+    }
+</style>
+
+<script>
+    (function () {
+        function initFloatingAI() {
+            const toggleBtn = document.getElementById('btnFloatingAIToggle');
+            const closeBtn = document.getElementById('btnFloatingAIClose');
+            const windowEl = document.getElementById('floating-ai-window');
+            const formEl = document.getElementById('floatingAIForm');
+            const inputEl = document.getElementById('floatingAIInput');
+            const historyEl = document.getElementById('floatingAIChatHistory');
+
+            if (!toggleBtn || !windowEl) return;
+
+            toggleBtn.addEventListener('click', function () {
+                if (windowEl.style.display === 'none' || windowEl.style.display === '') {
+                    windowEl.style.display = 'flex';
+                    inputEl.focus();
+                } else {
+                    windowEl.style.display = 'none';
+                }
+            });
+
+            closeBtn?.addEventListener('click', function () {
+                windowEl.style.display = 'none';
+            });
+
+            window.askFloatingAI = function (query) {
+                if (!query) return;
+                inputEl.value = query;
+                submitFloatingQuery(query);
+            };
+
+            formEl?.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const q = inputEl.value.trim();
+                if (!q) return;
+                submitFloatingQuery(q);
+            });
+
+            function submitFloatingQuery(query) {
+                appendUserMsg(query);
+                inputEl.value = '';
+                showTyping();
+
+                fetch('/ChatGPT/AskChatBot', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: query })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    removeTyping();
+                    appendBotMsg(data);
+                })
+                .catch(() => {
+                    removeTyping();
+                    appendSimpleBotMsg("Could not connect to the statutory server. Please check your connection and try again.");
+                });
+            }
+
+            function appendUserMsg(txt) {
+                const div = document.createElement('div');
+                div.className = 'floating-chat-bubble user';
+                div.innerHTML = `
+                    <div class="d-flex align-items-center gap-1 mb-1">
+                        <strong style="font-size: 0.72rem;">You</strong>
+                    </div>
+                    <div style="font-size: 0.84rem;">${escapeTxt(txt)}</div>
+                `;
+                historyEl.appendChild(div);
+                historyEl.scrollTop = historyEl.scrollHeight;
+            }
+
+            function appendBotMsg(data) {
+                const div = document.createElement('div');
+                div.className = 'floating-chat-bubble bot';
+
+                const title = data.title || 'Legal Guidance';
+                const act = data.act || '';
+                const desc = data.description || data.summary || 'Details loaded.';
+                const penalty = data.penalty || '';
+                const remedies = data.remedies || '';
+
+                let inner = `
+                    <div class="d-flex align-items-center gap-1 mb-1">
+                        <i class="fa-solid fa-scale-balanced text-info" style="font-size: 0.75rem;"></i>
+                        <strong class="text-white" style="font-size: 0.75rem;">AI Analysis</strong>
+                        ${act ? `<span class="badge bg-primary bg-opacity-25 text-info ms-1" style="font-size: 0.62rem;">${escapeTxt(act)}</span>` : ''}
+                    </div>
+                    <div class="fw-bold text-white mb-1" style="font-size: 0.85rem; color: #a855f7 !important;">${escapeTxt(title)}</div>
+                    <div class="text-light mb-2" style="font-size: 0.82rem; line-height: 1.4;">${escapeTxt(desc)}</div>
+                `;
+
+                if (penalty) {
+                    inner += `
+                        <div class="p-1 px-2 mb-2 rounded" style="background: rgba(244, 63, 94, 0.12); border-left: 2px solid #f43f5e; font-size: 0.75rem;">
+                            <strong class="text-danger">Penalty / Nature:</strong> ${escapeTxt(penalty)}
+                        </div>
+                    `;
+                }
+
+                if (remedies) {
+                    inner += `
+                        <div class="p-1 px-2 mb-2 rounded" style="background: rgba(6, 182, 212, 0.12); border-left: 2px solid #06b6d4; font-size: 0.75rem; white-space: pre-line;">
+                            <strong class="text-info">Legal Next Steps:</strong>\n${escapeTxt(remedies)}
+                        </div>
+                    `;
+                }
+
+                inner += `
+                    <div class="d-flex justify-content-between align-items-center pt-1 border-top border-secondary border-opacity-20 mt-1">
+                        <a href="/Hero/BookAdvocate" class="text-info text-decoration-none fw-bold" style="font-size: 0.72rem;"><i class="fa-solid fa-user-tie me-1"></i> Consult Advocate</a>
+                        <a href="/AskChatBot" class="text-secondary text-decoration-none" style="font-size: 0.72rem;">Full Screen <i class="fa-solid fa-chevron-right ms-1"></i></a>
+                    </div>
+                `;
+
+                div.innerHTML = inner;
+                historyEl.appendChild(div);
+                historyEl.scrollTop = historyEl.scrollHeight;
+            }
+
+            function appendSimpleBotMsg(txt) {
+                const div = document.createElement('div');
+                div.className = 'floating-chat-bubble bot';
+                div.innerHTML = `
+                    <div class="d-flex align-items-center gap-1 mb-1">
+                        <i class="fa-solid fa-robot text-info" style="font-size: 0.75rem;"></i>
+                        <strong class="text-white" style="font-size: 0.75rem;">LegalTech AI</strong>
+                    </div>
+                    <div style="font-size: 0.82rem;">${escapeTxt(txt)}</div>
+                `;
+                historyEl.appendChild(div);
+                historyEl.scrollTop = historyEl.scrollHeight;
+            }
+
+            function showTyping() {
+                const div = document.createElement('div');
+                div.id = 'floatingAITyping';
+                div.className = 'floating-chat-bubble bot';
+                div.innerHTML = `
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="spinner-grow spinner-grow-sm text-info" role="status" style="width: 12px; height: 12px;"></div>
+                        <small class="text-secondary" style="font-size: 0.74rem;">Searching statutes & case law...</small>
+                    </div>
+                `;
+                historyEl.appendChild(div);
+                historyEl.scrollTop = historyEl.scrollHeight;
+            }
+
+            function removeTyping() {
+                const el = document.getElementById('floatingAITyping');
+                if (el) el.remove();
+            }
+
+            function escapeTxt(str) {
+                return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initFloatingAI);
+        } else {
+            initFloatingAI();
+        }
+    })();
+</script>

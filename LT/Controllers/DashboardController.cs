@@ -1,4 +1,4 @@
-﻿using LT.Data;
+using LT.Data;
 using LT.Security;
 using LT.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +23,9 @@ namespace LT.Controllers
             _utilities = utilities;
         }
 
-        public IActionResult Home()//comment
+        public IActionResult Home()
         {
-            return View();
+            return RedirectToAction("Home", "UserDashboard");
         }
     }
 }

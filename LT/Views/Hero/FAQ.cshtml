@@ -1,0 +1,76 @@
+@{
+    ViewData["Title"] = "Frequently Asked Questions";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="container py-4 py-lg-5 position-relative" style="z-index: 2;">
+    <div class="text-center mb-5">
+        <span class="text-gradient fw-bold text-uppercase small">Help & Support</span>
+        <h2 class="display-5 fw-bold text-white mt-1">Frequently Asked Questions</h2>
+        <p class="text-secondary mx-auto" style="max-width: 600px;">
+            Everything you need to know about Legal Tech digital case management, AI statutory analysis, and security.
+        </p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="accordion glass-panel p-3 border-0" id="legalFaq">
+                <!-- Q1 -->
+                <div class="accordion-item bg-transparent border-0 mb-3">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button text-white rounded-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.08);">
+                            <i class="fa-solid fa-circle-question text-info me-2"></i> How does the AI Legal Assistant extract statutory information?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#legalFaq">
+                        <div class="accordion-body text-secondary small p-4">
+                            Our AI Legal Assistant utilizes indexed statutory databases of the Indian Penal Code (IPC), Bharatiya Nyaya Sanhita (BNS 2023), Code of Criminal Procedure (CrPC), and the Constitution of India. It matches your query to exact sections and extracts descriptions, statutory penalties, and recommended procedural remedies.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="accordion-item bg-transparent border-0 mb-3">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button text-white rounded-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.08);">
+                            <i class="fa-solid fa-calendar-check text-warning me-2"></i> How are hearing dates and court causes tracked?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#legalFaq">
+                        <div class="accordion-body text-secondary small p-4">
+                            Once a case is filed in the platform, the Hearing Calendar automatically computes countdown urgency badges (Urgent, Upcoming, Scheduled). You can also link cases directly to court cause list notifications for High Courts and District Courts.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="accordion-item bg-transparent border-0 mb-3">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button text-white rounded-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.08);">
+                            <i class="fa-solid fa-shield-halved text-success me-2"></i> Is client data and evidence stored securely?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#legalFaq">
+                        <div class="accordion-body text-secondary small p-4">
+                            Yes. All case petitions, evidence files, and client records are encrypted using AES-256 at rest and TLS 1.3 in transit. Role-based access ensures only authorized advocates and verified clients can access confidential case files.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="accordion-item bg-transparent border-0 mb-3">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button text-white rounded-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.08);">
+                            <i class="fa-solid fa-user-tie text-purple me-2"></i> How can I book an advocate for my case?
+                        </button>
+                    </h2>
+                    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#legalFaq">
+                        <div class="accordion-body text-secondary small p-4">
+                            You can visit our Advocate Directory, filter by specialization (Criminal, Commercial, Family, Constitutional), select an available date and time slot, and book a consultation instantly via video call or chamber meeting.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

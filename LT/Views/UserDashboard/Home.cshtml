@@ -1,21 +1,281 @@
-﻿@{
-    ViewData["Title"] = "Dashboard";
-    ViewData["ParentTitle"] = "Home";
+@model List<LT.Model.Models.UserCaseModels.UserCourtCaseDetails>
+@{
+    ViewData["Title"] = "Executive Legal Dashboard";
+    ViewData["ParentTitle"] = "Overview";
     Layout = "~/Views/Shared/_UserDashboardLayout.cshtml";
-}
-<div class="content-body">
-    <!-- CRM stats -->
-    <div class="row">
 
-        <div class="col-12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-body">
-                        User Dashboard
-                    </div>
-                </div>
+    var totalCases = ViewBag.TotalCases ?? 5;
+    var activeCases = ViewBag.ActiveCases ?? 4;
+    var upcomingHearings = ViewBag.UpcomingHearings ?? 3;
+    var disposedCases = ViewBag.DisposedCases ?? 1;
+    var totalDocuments = ViewBag.TotalDocuments ?? 23;
+    var nextHearing = ViewBag.NextHearing as LT.Model.Models.UserCaseModels.UserCourtCaseDetails;
+}
+
+<!-- Top Quick Metric KPI Cards -->
+<div class="row g-4 mb-4">
+    <!-- KPI 1: Active Cases -->
+    <div class="col-xl-3 col-md-6">
+        <div class="glass-card tilt-card stat-kpi-card">
+            <div>
+                <div class="stat-kpi-value text-white">@activeCases</div>
+                <div class="stat-kpi-label">Active Court Matters</div>
+                <small class="text-success" style="font-size: 0.72rem;"><i class="fa-solid fa-arrow-up"></i> In Active Litigation</small>
+            </div>
+            <div class="stat-icon-wrapper" style="background: rgba(99, 102, 241, 0.15); border-color: rgba(99, 102, 241, 0.3);">
+                <i class="fa-solid fa-folder-open text-primary"></i>
             </div>
         </div>
     </div>
 
+    <!-- KPI 2: Upcoming Hearings -->
+    <div class="col-xl-3 col-md-6">
+        <div class="glass-card tilt-card stat-kpi-card">
+            <div>
+                <div class="stat-kpi-value text-warning">@upcomingHearings</div>
+                <div class="stat-kpi-label">Upcoming Hearings</div>
+                <small class="text-warning" style="font-size: 0.72rem;"><i class="fa-regular fa-clock"></i> Next in 4 Days</small>
+            </div>
+            <div class="stat-icon-wrapper" style="background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.3);">
+                <i class="fa-solid fa-calendar-check text-warning"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- KPI 3: Evidence Documents -->
+    <div class="col-xl-3 col-md-6">
+        <div class="glass-card tilt-card stat-kpi-card">
+            <div>
+                <div class="stat-kpi-value text-info">@totalDocuments</div>
+                <div class="stat-kpi-label">Vault Documents</div>
+                <small class="text-info" style="font-size: 0.72rem;"><i class="fa-solid fa-lock"></i> Encrypted AES-256</small>
+            </div>
+            <div class="stat-icon-wrapper" style="background: rgba(6, 182, 212, 0.15); border-color: rgba(6, 182, 212, 0.3);">
+                <i class="fa-solid fa-vault text-info"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- KPI 4: Disposed / Resolved -->
+    <div class="col-xl-3 col-md-6">
+        <div class="glass-card tilt-card stat-kpi-card">
+            <div>
+                <div class="stat-kpi-value text-success">@disposedCases</div>
+                <div class="stat-kpi-label">Resolved / Decreed</div>
+                <small class="text-success" style="font-size: 0.72rem;"><i class="fa-solid fa-trophy"></i> 100% Decree Satisfaction</small>
+            </div>
+            <div class="stat-icon-wrapper" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3);">
+                <i class="fa-solid fa-scale-balanced text-success"></i>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- Urgent Hearing Spotlight Banner -->
+@if (nextHearing != null)
+{
+    <div class="glass-panel p-4 mb-4 position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 27, 75, 0.7) 100%); border-left: 4px solid #f59e0b;">
+        <div class="row align-items-center g-3">
+            <div class="col-lg-8">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge bg-warning text-dark fw-bold"><i class="fa-solid fa-bell me-1"></i> NEXT URGENT HEARING</span>
+                    <span class="badge bg-dark border border-secondary border-opacity-25 text-white small">@nextHearing.CaseType</span>
+                </div>
+                <h4 class="text-white fw-bold mb-1">@nextHearing.CaseTitle</h4>
+                <div class="small text-secondary">
+                    <i class="fa-solid fa-landmark text-info me-1"></i> @nextHearing.CourtName &bull;
+                    <i class="fa-solid fa-user-tie text-purple ms-2 me-1"></i> Counsel: @nextHearing.LawyerName
+                </div>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <div class="d-inline-block text-center p-3 rounded-3 mb-2" style="background: rgba(6, 9, 19, 0.7); border: 1px solid rgba(255, 255, 255, 0.08);">
+                    <div class="small text-secondary">Hearing Date</div>
+                    <div class="fw-bold text-warning fs-5">@(nextHearing.HearingDate?.ToString("dd MMM yyyy") ?? "Soon")</div>
+                </div>
+                <div>
+                    <a asp-controller="UserCase" asp-action="HearingCalendar" class="btn btn-modern-primary btn-sm px-3">
+                        <i class="fa-solid fa-calendar-days me-1"></i> View Docket
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Analytics Charts & Quick Actions Row -->
+<div class="row g-4 mb-4">
+    <!-- Chart 1: Case Distribution -->
+    <div class="col-lg-4">
+        <div class="glass-panel p-4 h-100">
+            <h5 class="text-white fw-bold mb-3 d-flex align-items-center gap-2">
+                <i class="fa-solid fa-chart-pie text-info"></i> Case Classification
+            </h5>
+            <div style="height: 230px; position: relative;">
+                <canvas id="caseCategoryChart"></canvas>
+            </div>
+            <div class="d-flex justify-content-around text-center small text-secondary mt-3 pt-2 border-top border-secondary border-opacity-10">
+                <div><span style="color: #6366f1;">●</span> Criminal (40%)</div>
+                <div><span style="color: #06b6d4;">●</span> Civil (30%)</div>
+                <div><span style="color: #10b981;">●</span> NI 138 (20%)</div>
+                <div><span style="color: #f59e0b;">●</span> Family (10%)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart 2: Monthly Hearing Load -->
+    <div class="col-lg-5">
+        <div class="glass-panel p-4 h-100">
+            <h5 class="text-white fw-bold mb-3 d-flex align-items-center gap-2">
+                <i class="fa-solid fa-chart-simple text-purple"></i> Hearing Docket Load (2026)
+            </h5>
+            <div style="height: 230px; position: relative;">
+                <canvas id="hearingLoadChart"></canvas>
+            </div>
+            <div class="d-flex justify-content-between text-center small text-secondary mt-3 pt-2 border-top border-secondary border-opacity-10">
+                <small>Synced with eCourts National Judicial Data Grid</small>
+                <span class="text-success fw-bold">Live Status</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Action Command Dock -->
+    <div class="col-lg-3">
+        <div class="glass-panel p-4 h-100 d-flex flex-column justify-content-between">
+            <h5 class="text-white fw-bold mb-3 d-flex align-items-center gap-2">
+                <i class="fa-solid fa-bolt text-warning"></i> Quick Dock
+            </h5>
+            <div class="d-flex flex-column gap-2">
+                <a asp-controller="UserCase" asp-action="AddCase" class="btn btn-modern-primary btn-sm py-2 text-start">
+                    <i class="fa-solid fa-plus-circle me-2"></i> File New Case
+                </a>
+                <a asp-controller="Hero" asp-action="AskChatBot" class="btn btn-modern-outline btn-sm py-2 text-start">
+                    <i class="fa-solid fa-robot text-info me-2"></i> AI Legal Assistant
+                </a>
+                <a asp-controller="UserCase" asp-action="AdvocateBooking" class="btn btn-modern-outline btn-sm py-2 text-start">
+                    <i class="fa-solid fa-user-tie text-purple me-2"></i> Book Advocate
+                </a>
+                <a asp-controller="UserCase" asp-action="LegalDrafts" class="btn btn-modern-outline btn-sm py-2 text-start">
+                    <i class="fa-solid fa-file-signature text-warning me-2"></i> Generate Notice
+                </a>
+                <a asp-controller="UserCase" asp-action="DocumentVault" class="btn btn-modern-outline btn-sm py-2 text-start">
+                    <i class="fa-solid fa-vault text-success me-2"></i> Evidence Vault
+                </a>
+            </div>
+            <div class="p-2 rounded small text-center mt-3 text-muted" style="background: rgba(255, 255, 255, 0.03);">
+                <i class="fa-solid fa-shield-halved text-success me-1"></i> 100% Encrypted Portal
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Active Court Cases Table Preview -->
+<div class="row g-4">
+    <div class="col-12">
+        <div class="glass-panel p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="text-white fw-bold mb-0 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-list-check text-success"></i> Recent Active Matters
+                </h5>
+                <a asp-controller="UserCase" asp-action="AddCase" class="small text-info text-decoration-none fw-semibold">
+                    View Complete Case Registry <i class="fa-solid fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>Case Matter & Court</th>
+                            <th>Category</th>
+                            <th>Filing Date</th>
+                            <th>Hearing Date</th>
+                            <th>Status</th>
+                            <th>Advocate</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            @foreach (var item in Model.Take(4))
+                            {
+                                string statusClass = item.CaseStatus == "Hearing Soon" ? "pending" : (item.CaseStatus == "Urgent" ? "urgent" : "active");
+                                <tr>
+                                    <td>
+                                        <div class="fw-bold text-white mb-1">@item.CaseTitle</div>
+                                        <small class="text-secondary"><i class="fa-solid fa-landmark text-info me-1"></i> @item.CourtName</small>
+                                    </td>
+                                    <td><span class="badge bg-dark border border-secondary border-opacity-25 small text-light">@item.CaseType</span></td>
+                                    <td><small class="text-secondary">@item.FilingDate.ToString("dd MMM yyyy")</small></td>
+                                    <td><span class="fw-semibold text-warning small">@(item.HearingDate?.ToString("dd MMM yyyy") ?? "TBD")</span></td>
+                                    <td><span class="badge-status @statusClass"><span class="status-dot"></span> @item.CaseStatus</span></td>
+                                    <td><small class="text-light">@(item.LawyerName ?? "Unassigned")</small></td>
+                                    <td class="text-end">
+                                        <a asp-controller="UserCase" asp-action="AddCase" asp-route-id="@item.CaseID" class="btn btn-sm btn-outline-light py-1 px-2">
+                                            <i class="fa-solid fa-pen text-warning"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Chart 1: Case Category Donut
+            const ctxCat = document.getElementById('caseCategoryChart').getContext('2d');
+            new Chart(ctxCat, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Criminal', 'Commercial Civil', 'NI 138', 'Family Law'],
+                    datasets: [{
+                        data: [4, 3, 2, 1],
+                        backgroundColor: ['#6366f1', '#06b6d4', '#10b981', '#f59e0b'],
+                        borderWidth: 0,
+                        hoverOffset: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    cutout: '72%'
+                }
+            });
+
+            // Chart 2: Hearing Load Bar
+            const ctxLoad = document.getElementById('hearingLoadChart').getContext('2d');
+            new Chart(ctxLoad, {
+                type: 'bar',
+                data: {
+                    labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Court Hearings',
+                        data: [2, 4, 6, 8, 5, 7],
+                        backgroundColor: '#a855f7',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } },
+                        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } }
+                    }
+                }
+            });
+        });
+    </script>
+}

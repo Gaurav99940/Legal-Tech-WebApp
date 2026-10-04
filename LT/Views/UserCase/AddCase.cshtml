@@ -1,302 +1,505 @@
-﻿@model LT.Model.Models.UserCaseModels.UserCourtCaseDetails
+@model LT.Model.Models.UserCaseModels.UserCourtCaseDetails
 @{
-    ViewData["Title"] = "Add Cases";
-    ViewData["ParentTitle"] = "Case";
+    ViewData["Title"] = ViewBag.EditMode == "1" ? "Edit Court Case" : "Case Filing Studio & Docket";
+    ViewData["ParentTitle"] = "Case Management";
     Layout = "~/Views/Shared/_UserDashboardLayout.cshtml";
-    int totalpages = (int)ViewBag.TotalPages;
+    int totalpages = ViewBag.TotalPages != null ? (int)ViewBag.TotalPages : 1;
+    int currentPage = ViewBag.CurrentPage != null ? (int)ViewBag.CurrentPage : 1;
+    int totalItems = ViewBag.TotalItems != null ? (int)ViewBag.TotalItems : 0;
 }
-<form asp-action="AddCase" autocomplete="off" enctype="multipart/form-data" id="fileUploadForm" method="post">
-    <div class="content-body">
-        <div class="content-body">
-            <div id="user-profile">
-                <section class="horizontal-grid" id="horizontal-grid">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="card-body">
 
-                                        <div class="form-body">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    @if (ViewBag.successmessage != null)
-                                                    {
-                                                        <p class="alert alert-success">@ViewBag.successmessage</p>
-                                                    }
-                                                    @if (ViewBag.errormessage != null)
-                                                    {
-                                                        <p class="alert alert-danger">@ViewBag.errormessage</p>
-                                                    }
-                                                </div>
-                                            </div>
+<div class="row g-4 mb-4">
+    <!-- Case Filing Studio Form Card -->
+    <div class="col-12">
+        <div class="glass-panel p-4 p-lg-5">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary border-opacity-25 gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: var(--grad-primary); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-file-circle-plus text-white fs-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-white fw-bold mb-0">@(ViewBag.EditMode == "1" ? "Update Court Case Record" : "File New Court Matter")</h4>
+                        <small class="text-secondary">Enter primary case details, court jurisdiction, and attach initial petitions</small>
+                    </div>
+                </div>
 
-                                            <!--Start-->
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label asp-for="CaseTitle" class="control-label">Case Title</label>
-                                                        <input asp-for="CaseTitle" class="form-control" />
-                                                        <span asp-validation-for="CaseTitle" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label asp-for="CaseType" class="control-label">Case Type</label>
-                                                        <input asp-for="CaseType" class="form-control" />
-                                                        <span asp-validation-for="CaseType" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label asp-for="CourtName" class="control-label">Court's Name</label>
-                                                        <input asp-for="CourtName" class="form-control" />
-                                                        <span asp-validation-for="CourtName" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label asp-for="FilingDate" class="control-label">Filing Date</label>
-                                                        <input asp-for="FilingDate" class="form-control" type="date" />
-                                                        <span asp-validation-for="FilingDate" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label asp-for="HearingDate" class="control-label">Hearing Date</label>
-                                                        <input asp-for="HearingDate" class="form-control" type="date" />
-                                                        <span asp-validation-for="HearingDate" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label asp-for="CaseStatus" class="control-label">Case Status</label>
-                                                        <input asp-for="CaseStatus" class="form-control" />
-                                                        <span asp-validation-for="CaseStatus" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label asp-for="LawyerName" class="control-label">Lawyer's Name</label>
-                                                        <input asp-for="LawyerName" class="form-control" />
-                                                        <span asp-validation-for="LawyerName" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label asp-for="OpponentName" class="control-label">Opponent's Name</label>
-                                                        <input asp-for="OpponentName" class="form-control" />
-                                                        <span asp-validation-for="OpponentName" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label asp-for="OpponentLawyerName" class="control-label">Opponent Lawyer's Name</label>
-                                                        <input asp-for="OpponentLawyerName" class="form-control" />
-                                                        <span asp-validation-for="OpponentLawyerName" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label asp-for="CaseDescription" class="control-label">Case Description</label>
-                                                        <textarea asp-for="CaseDescription" class="form-control" rows="3"></textarea>
-                                                        <span asp-validation-for="CaseDescription" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label asp-for="VerdictDetails" class="control-label">Verdict Details</label>
-                                                        <textarea asp-for="VerdictDetails" class="form-control" rows="3"></textarea>
-                                                        <span asp-validation-for="VerdictDetails" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                            
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label asp-for="VerdictDate" class="control-label">Verdict Date</label>
-                                                        <input asp-for="VerdictDate" class="form-control" type="date" />
-                                                        <span asp-validation-for="VerdictDate" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <p>Choose Logo (height and width should be same)</p>
-                                                    <fieldset class="form-group position-relative">
-                                                        <div class="custom-file">
-                                                            <input type="hidden" asp-for="CaseID" />
-                                                            <input asp-for="pdfFile" type="file" class="form-control-file" id="pdfFile" accept="image/*">
-                                                        </div>
-                                                    </fieldset>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label asp-for="IsActive" class="control-label">Is Active</label>
-                                                        <select asp-for="IsActive" class="form-control">
-                                                            <option value="">Select Status</option>
-                                                            <option value="1">Active</option>
-                                                            <option value="0">Inactive</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label asp-for="Remarks" class="control-label">Remarks</label>
-                                                        <textarea asp-for="Remarks" class="form-control" rows="2"></textarea>
-                                                        <span asp-validation-for="Remarks" class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-actions">
-                                                @if (ViewBag.EditMode != "1")
-                                                {
-                                                    <button type="submit" class="btn btn-primary">
-                                                        <i class="fa fa-check-square-o"></i> Save
-                                                    </button>
-                                                }
-                                                else
-                                                {
-                                                    <button type="submit" class="btn btn-primary">
-                                                        <i class="fa fa-check-square-o"></i> Update
-                                                    </button>
+                @if (ViewBag.EditMode == "1")
+                {
+                    <a asp-action="AddCase" asp-controller="UserCase" class="btn btn-modern-outline btn-sm">
+                        <i class="fa-solid fa-plus me-1"></i> File New Case Instead
+                    </a>
+                }
+            </div>
 
-                                                    <a href="~/Administrator/UserManagement" class="btn btn-dark">Reset <i class="ft-refresh-cw"></i></a>
+            @if (ViewBag.successmessage != null)
+            {
+                <div class="alert alert-success d-flex align-items-center gap-2 p-3 rounded-3 mb-4" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #34d399;">
+                    <i class="fa-solid fa-circle-check fs-5"></i>
+                    <div>@ViewBag.successmessage</div>
+                </div>
+            }
+            @if (ViewBag.errormessage != null)
+            {
+                <div class="alert alert-danger d-flex align-items-center gap-2 p-3 rounded-3 mb-4" style="background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.35); color: #fb7185;">
+                    <i class="fa-solid fa-circle-exclamation fs-5"></i>
+                    <div>@ViewBag.errormessage</div>
+                </div>
+            }
 
-                                                    <input type="hidden" asp-for="CaseID" />
-                                                }
+            <form asp-action="AddCase" method="post" enctype="multipart/form-data" autocomplete="off">
+                <input type="hidden" asp-for="CaseID" />
 
-                                            </div>
-                                        </div> 
-                                        <!--End-->
-                                    </div>
-                                </div>
-                            </div>
+                <!-- Section 1: Matter Identification -->
+                <div class="mb-4">
+                    <h6 class="text-gradient fw-bold text-uppercase small mb-3"><i class="fa-solid fa-gavel me-1"></i> 1. Matter Identification & Court Jurisdiction</h6>
+                    <div class="row g-3">
+                        <div class="col-lg-4 col-md-6">
+                            <label asp-for="CaseTitle" class="modern-label">Case Title / Petitioner vs Respondent</label>
+                            <input id="inputCaseTitle" asp-for="CaseTitle" class="form-control modern-input" placeholder="e.g., XYZ Enterprises vs ABC Corp" required oninput="triggerAdvocateSuggestions()" />
+                            <span asp-validation-for="CaseTitle" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                            <label asp-for="CaseType" class="modern-label">Case Classification / Statute Section</label>
+                            <select id="selectCaseType" asp-for="CaseType" class="form-select modern-select" required onchange="triggerAdvocateSuggestions()">
+                                <option value="">Select Case Type / Section</option>
+                                <option value="Section 138 NI Act (Cheque Bounce)">Section 138 NI Act (Cheque Bounce)</option>
+                                <option value="Criminal - Section 302/307 (Homicide / Attempt)">Criminal - Section 302/307 (Homicide / Attempt)</option>
+                                <option value="Commercial Fraud - Section 420 IPC / BNS">Commercial Fraud - Section 420 IPC / BNS</option>
+                                <option value="Bail Petition - Section 438 Anticipatory Bail">Bail Petition - Section 438 Anticipatory Bail</option>
+                                <option value="Commercial Arbitration & SLA Dispute">Commercial Arbitration & SLA Dispute</option>
+                                <option value="Writ Petition (Civil / Article 226/32)">Writ Petition (Civil / Article 226/32)</option>
+                                <option value="Family Law & Section 13B Mutual Divorce">Family Law & Section 13B Mutual Divorce</option>
+                                <option value="Cyber Crime - Section 66 IT Act">Cyber Crime - Section 66 IT Act</option>
+                                <option value="Consumer Protection Appeal">Consumer Protection Appeal</option>
+                                <option value="Property Dispute & Tenant Eviction">Property Dispute & Tenant Eviction</option>
+                            </select>
+                            <span asp-validation-for="CaseType" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-lg-4 col-md-12">
+                            <label asp-for="CourtName" class="modern-label">Court / Bench / Forum Name</label>
+                            <input asp-for="CourtName" class="form-control modern-input" placeholder="e.g., High Court of Delhi / District Court" required />
+                            <span asp-validation-for="CourtName" class="text-danger small"></span>
                         </div>
                     </div>
-                </section>
-                <section class="horizontal-grid" id="horizontal-grid">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title">Court Cases</h4>
-                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                    <div class="heading-elements">
-                                        <ul class="list-inline mb-0">
-                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <div class="card-body overflow-auto">
-                                        <table class="table table-striped table-bordered sourced-data">
-                                            <thead>
-                                                <tr>
-                                                    <th>Case Title</th>
-                                                    <th>Case Type</th>
-                                                    <th>Court Name</th>
-                                                    <th>Hearing Date</th>
-                                                    <th>Filing Date</th>
-                                                    <th>Case Status</th>
-                                                    <th>Lawyer Name</th>
-                                                    <th>Opponent Lawyer Name</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if (ViewBag.caseList != null)
-                                                {
-                                                    @foreach (var item in ViewBag.caseList)
-                                                    {
-                                                        <tr>
-                                                            <td>@item.CaseTitle</td>
-                                                            <td>@item.CaseType</td>
-                                                            <td>@item.CourtName</td>
-                                                            <td>@item.HearingDate</td>
-                                                            <td>@item.FilingDate</td>
-                                                            <td>@item.CaseStatus</td>
-                                                            <td>@item.LawyerName</td>
-                                                            <td>@item.OpponentLawyerName</td>
+                </div>
 
-                                                        </tr>
-                                                    }
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="row card-body">
-                                        <div class="col-sm-12 col-md-5">
-                                            <div class="dataTables_info" role="status">
-                                                Showing @((ViewBag.CurrentPage - 1) * 5 + 1) to
-                                                @(Math.Min((ViewBag.CurrentPage - 1) * 5 + 5, ViewBag.TotalItems))
-                                                of
-                                                @ViewBag.TotalItems records
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-7">
-                                            <div class="dataTables_paginate paging_simple_numbers" style="font-size:.8em">
-                                                <ul class="pagination" style="float:right;">
-                                                    @if (ViewBag.CurrentPage > 1)
-                                                    {
-                                                        <li class="paginate_button page-item previous">
-                                                            <a asp-action="LogNewInitiative" asp-route-pageIndex="1" asp-route-pageSize="5" class="page-link"><i class="icon-control-start"></i></a>
-                                                        </li>
-                                                        <li class="paginate_button page-item">
-                                                            <a asp-action="LogNewInitiative" asp-route-pageIndex="@(ViewBag.CurrentPage - 1)" asp-route-pageSize="5" class="page-link"><i class="icon-arrow-left"></i></a>
-                                                        </li>
-                                                    }
-                                                    else
-                                                    {
-                                                        <li class="paginate_button page-item disabled">
-                                                            <a href="#" class="page-link"><i class="icon-control-start"></i></a>
-                                                        </li>
-                                                        <li class="paginate_button page-item disabled">
-                                                            <a href="#" class="page-link"><i class="icon-arrow-left"></i></a>
-                                                        </li>
-                                                    }
-
-                                                    @for (int i = 0; i < totalpages; i++)
-                                                    {
-                                                        if (ViewBag.CurrentPage == (i + 1))
-                                                        {
-
-                                                            <li class="paginate_button page-item active disabled"><a href="#" class="page-link white">@(i + 1)</a></li>
-                                                        }
-                                                        else
-                                                        {
-                                                            <li class="paginate_button page-item"><a asp-route-pageIndex="@(i+1)" asp-route-pageSize="5" class="page-link">@(i + 1)</a></li>
-                                                        }
-                                                    }
-                                                    @if (ViewBag.CurrentPage < ViewBag.TotalPages)
-                                                    {
-                                                        <li class="paginate_button page-item"><a asp-action="LogNewInitiative" asp-route-pageIndex="@(ViewBag.CurrentPage + 1)" asp-route-pageSize="5" class="page-link"><i class="icon-arrow-right"></i></a></li>
-                                                        <li class="paginate_button page-item next"><a asp-action="LogNewInitiative" asp-route-pageIndex="@ViewBag.TotalPages" asp-route-pageSize="5" class="page-link"><i class="icon-control-end"></i></a></li>
-                                                    }
-                                                    else
-                                                    {
-                                                        <li class="paginate_button page-item disabled"><a href="#" class="page-link"><i class="icon-arrow-right"></i></a></li>
-                                                        <li class="paginate_button page-item next disabled"><a href="#" class="page-link"><i class="icon-control-end"></i></a></li>
-                                                    }
-
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                <!-- AI Section-Based Advocate Recommender Panel -->
+                <div class="p-3 rounded-3 mb-4" id="aiAdvocateRecommenderBox" style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.25);">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-2 gap-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <div style="width: 28px; height: 28px; border-radius: 8px; background: var(--grad-primary); display: flex; align-items: center; justify-content: center;">
+                                <i class="fa-solid fa-wand-magic-sparkles text-white" style="font-size: 0.8rem;"></i>
                             </div>
+                            <span class="fw-bold text-white small">AI Suggested Specialized Advocates for this Matter</span>
+                            <span class="badge bg-primary" style="font-size: 0.65rem;">Auto-Matched</span>
+                        </div>
+                        <small class="text-secondary" style="font-size: 0.72rem;">Click "Assign to Case" to auto-fill lawyer name</small>
+                    </div>
+
+                    <div class="row g-2" id="advocateSuggestionsRow">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Section 2: Critical Dates & Current Status -->
+                <div class="mb-4">
+                    <h6 class="text-gradient fw-bold text-uppercase small mb-3"><i class="fa-solid fa-calendar-days me-1"></i> 2. Hearing Schedule & Lifecycle Status</h6>
+                    <div class="row g-3">
+                        <div class="col-lg-4 col-md-6">
+                            <label asp-for="FilingDate" class="modern-label">Filing Date</label>
+                            <input asp-for="FilingDate" type="date" class="form-control modern-input" required id="inputFilingDate" />
+                            <span asp-validation-for="FilingDate" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                            <label asp-for="HearingDate" class="modern-label">Next Hearing Date</label>
+                            <input asp-for="HearingDate" type="date" class="form-control modern-input" id="inputHearingDate" />
+                            <span asp-validation-for="HearingDate" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-lg-4 col-md-12">
+                            <label asp-for="CaseStatus" class="modern-label">Current Stage / Case Status</label>
+                            <select asp-for="CaseStatus" class="form-select modern-select" required>
+                                <option value="Active">Active</option>
+                                <option value="Hearing Soon">Hearing Soon</option>
+                                <option value="Urgent">Urgent Stay / Bail</option>
+                                <option value="In Mediation">In Mediation</option>
+                                <option value="Arguments Stage">Arguments Stage</option>
+                                <option value="Disposed">Disposed / Decreed</option>
+                                <option value="Closed">Closed</option>
+                            </select>
+                            <span asp-validation-for="CaseStatus" class="text-danger small"></span>
                         </div>
                     </div>
-                </section>
+                </div>
+
+                <!-- Section 3: Legal Representation & Opposing Parties -->
+                <div class="mb-4">
+                    <h6 class="text-gradient fw-bold text-uppercase small mb-3"><i class="fa-solid fa-users me-1"></i> 3. Legal Counsels & Opposing Parties</h6>
+                    <div class="row g-3">
+                        <div class="col-lg-4 col-md-6">
+                            <label asp-for="LawyerName" class="modern-label">Appointed Advocate (Your Counsel)</label>
+                            <input id="inputLawyerName" asp-for="LawyerName" class="form-control modern-input" placeholder="e.g., Adv. Priya Sharma / Adv. Ramesh Tiwari" />
+                            <span asp-validation-for="LawyerName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                            <label asp-for="OpponentName" class="modern-label">Opposing Party Name</label>
+                            <input asp-for="OpponentName" class="form-control modern-input" placeholder="e.g., ABC Global Corp / State" />
+                            <span asp-validation-for="OpponentName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-lg-4 col-md-12">
+                            <label asp-for="OpponentLawyerName" class="modern-label">Opponent Lawyer / Public Prosecutor</label>
+                            <input asp-for="OpponentLawyerName" class="form-control modern-input" placeholder="e.g., Adv. Vikram Singhania" />
+                            <span asp-validation-for="OpponentLawyerName" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Narrative Description & Remarks -->
+                <div class="mb-4">
+                    <h6 class="text-gradient fw-bold text-uppercase small mb-3"><i class="fa-solid fa-align-left me-1"></i> 4. Case Summary, Evidence & Final Verdict</h6>
+                    <div class="row g-3">
+                        <div class="col-lg-6">
+                            <label asp-for="CaseDescription" class="modern-label">Case Narrative / Prayer Brief</label>
+                            <textarea asp-for="CaseDescription" class="form-control modern-textarea" rows="3" placeholder="Brief facts of the case, statutory relief sought, or FIR background..."></textarea>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label asp-for="Remarks" class="modern-label">Hearing Action Notes & Directives</label>
+                            <textarea asp-for="Remarks" class="form-control modern-textarea" rows="3" placeholder="Notes on evidence filing, witness cross-examination, or bench directives..."></textarea>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                            <label asp-for="VerdictDate" class="modern-label">Verdict / Order Date (If applicable)</label>
+                            <input asp-for="VerdictDate" type="date" class="form-control modern-input" />
+                        </div>
+
+                        <div class="col-lg-4 col-md-6">
+                            <label class="modern-label">Attach Petition / Evidence Document</label>
+                            <input asp-for="pdfFile" type="file" class="form-control modern-input" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx" />
+                        </div>
+
+                        <div class="col-lg-4 col-md-12">
+                            <label asp-for="VerdictDetails" class="modern-label">Verdict Order / Decree Summary</label>
+                            <input asp-for="VerdictDetails" class="form-control modern-input" placeholder="e.g., Decreed with compensation / Bail Granted" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <div class="d-flex gap-3 justify-content-end pt-3 border-top border-secondary border-opacity-25">
+                    @if (ViewBag.EditMode == "1")
+                    {
+                        <a asp-action="AddCase" class="btn btn-modern-outline px-4">Cancel</a>
+                        <button type="submit" class="btn btn-modern-primary px-5">
+                            <i class="fa-solid fa-check-double me-2"></i> Update Case Record
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="reset" class="btn btn-modern-outline px-4">Reset</button>
+                        <button type="submit" class="btn btn-modern-primary px-5">
+                            <i class="fa-solid fa-shield-halved me-2"></i> Securely File Case
+                        </button>
+                    }
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Court Cases Data Grid & Real-Time Docket -->
+    <div class="col-12 mt-4">
+        <div class="glass-panel p-4 p-lg-5">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+                <div>
+                    <h4 class="text-white fw-bold mb-1">Active Court Cases & Docket Registry</h4>
+                    <p class="text-secondary small mb-0">Total recorded matters: <span class="text-gradient fw-bold">@totalItems</span></p>
+                </div>
+
+                <!-- Search & Filters -->
+                <form method="get" asp-action="AddCase" class="d-flex flex-wrap gap-2">
+                    <input type="text" name="searchQuery" value="@ViewBag.SearchQuery" class="form-control modern-input form-control-sm" placeholder="Search case title or court..." style="width: 220px;" />
+                    <select name="filterStatus" class="form-select modern-select form-select-sm" style="width: 160px;" onchange="this.form.submit()">
+                        <option value="">All Statuses</option>
+                        <option value="Active" selected="@(ViewBag.FilterStatus == "Active")">Active</option>
+                        <option value="Hearing Soon" selected="@(ViewBag.FilterStatus == "Hearing Soon")">Hearing Soon</option>
+                        <option value="Urgent" selected="@(ViewBag.FilterStatus == "Urgent")">Urgent</option>
+                        <option value="In Mediation" selected="@(ViewBag.FilterStatus == "In Mediation")">In Mediation</option>
+                        <option value="Disposed" selected="@(ViewBag.FilterStatus == "Disposed")">Disposed</option>
+                    </select>
+                    <button type="submit" class="btn btn-modern-cyan btn-sm px-3"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+
+            <div class="table-responsive">
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>Case Matter & Forum</th>
+                            <th>Category</th>
+                            <th>Filing Date</th>
+                            <th>Next Hearing</th>
+                            <th>Status</th>
+                            <th>Advocate</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (ViewBag.caseList != null && ViewBag.caseList.Count > 0)
+                        {
+                            @foreach (var item in ViewBag.caseList)
+                            {
+                                string statusClass = "active";
+                                if (item.CaseStatus == "Hearing Soon") statusClass = "pending";
+                                else if (item.CaseStatus == "Urgent") statusClass = "urgent";
+                                else if (item.CaseStatus == "Disposed" || item.CaseStatus == "Closed") statusClass = "closed";
+
+                                <tr>
+                                    <td>
+                                        <div class="fw-bold text-white mb-1">@item.CaseTitle</div>
+                                        <small class="text-secondary"><i class="fa-solid fa-landmark text-info me-1"></i> @item.CourtName</small>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-dark border border-secondary border-opacity-25 small text-light">@item.CaseType</span>
+                                    </td>
+                                    <td>
+                                        <small class="text-secondary">@item.FilingDate.ToString("dd MMM yyyy")</small>
+                                    </td>
+                                    <td>
+                                        @if (item.HearingDate != null)
+                                        {
+                                            <div class="fw-semibold text-warning small">
+                                                <i class="fa-regular fa-clock me-1"></i> @item.HearingDate.ToString("dd MMM yyyy")
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted small">Not scheduled</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="badge-status @statusClass">
+                                            <span class="status-dot"></span>
+                                            @item.CaseStatus
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <small class="text-light"><i class="fa-solid fa-user-tie text-purple me-1"></i> @(string.IsNullOrEmpty(item.LawyerName) ? "Unassigned" : item.LawyerName)</small>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="d-inline-flex gap-2">
+                                            <button type="button" class="btn btn-sm btn-outline-light px-2" title="View Case Timeline" onclick="viewCaseModal('@item.CaseID', '@item.CaseTitle', '@item.CaseType', '@item.CourtName', '@(item.HearingDate?.ToString("dd MMM yyyy") ?? "N/A")', '@item.CaseStatus', '@item.LawyerName', '@item.OpponentName', '@item.CaseDescription', '@item.Remarks')">
+                                                <i class="fa-solid fa-eye text-info"></i>
+                                            </button>
+                                            <a asp-action="AddCase" asp-route-id="@item.CaseID" class="btn btn-sm btn-outline-light px-2" title="Edit Case">
+                                                <i class="fa-solid fa-pen-to-square text-warning"></i>
+                                            </a>
+                                            <form asp-action="DeleteCase" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this case record?');">
+                                                <input type="hidden" name="id" value="@item.CaseID" />
+                                                <button type="submit" class="btn btn-sm btn-outline-danger px-2" title="Delete Case">
+                                                    <i class="fa-solid fa-trash-can"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="7" class="text-center py-5 text-secondary">
+                                    <i class="fa-solid fa-folder-open fs-1 text-muted mb-3 d-block"></i>
+                                    No court case records found. Click above to file your first case!
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            @if (totalpages > 1)
+            {
+                <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top border-secondary border-opacity-10">
+                    <small class="text-secondary">Showing page @currentPage of @totalpages</small>
+                    <div class="d-flex gap-2">
+                        @if (currentPage > 1)
+                        {
+                            <a asp-action="AddCase" asp-route-pageIndex="@(currentPage - 1)" class="btn btn-modern-outline btn-sm">Previous</a>
+                        }
+                        @for (int i = 1; i <= totalpages; i++)
+                        {
+                            <a asp-action="AddCase" asp-route-pageIndex="@i" class="btn btn-sm @(i == currentPage ? "btn-modern-primary" : "btn-modern-outline")">@i</a>
+                        }
+                        @if (currentPage < totalpages)
+                        {
+                            <a asp-action="AddCase" asp-route-pageIndex="@(currentPage + 1)" class="btn btn-modern-outline btn-sm">Next</a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Case Deep-View Modal -->
+<div class="modal fade" id="caseDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content glass-panel border-0 text-white" style="background: rgba(11, 17, 32, 0.96); backdrop-filter: blur(30px);">
+            <div class="modal-header border-secondary border-opacity-25">
+                <h5 class="modal-title fw-bold text-gradient" id="modalCaseTitle">Case Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="p-3 rounded-3 mb-4" style="background: rgba(6, 9, 19, 0.7); border: 1px solid rgba(255, 255, 255, 0.08);">
+                    <div class="small text-secondary mb-3 fw-semibold text-uppercase">Case Stage Progression</div>
+                    <div class="d-flex justify-content-between position-relative text-center small">
+                        <div class="d-flex flex-column align-items-center">
+                            <span class="badge bg-success rounded-circle p-2 mb-1"><i class="fa-solid fa-check"></i></span>
+                            <span class="text-white">Filing</span>
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <span class="badge bg-success rounded-circle p-2 mb-1"><i class="fa-solid fa-check"></i></span>
+                            <span class="text-white">Notice</span>
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <span class="badge bg-primary rounded-circle p-2 mb-1"><i class="fa-solid fa-spinner fa-spin"></i></span>
+                            <span class="text-info fw-bold">Evidence</span>
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <span class="badge bg-secondary rounded-circle p-2 mb-1"><i class="fa-solid fa-circle"></i></span>
+                            <span class="text-muted">Arguments</span>
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <span class="badge bg-secondary rounded-circle p-2 mb-1"><i class="fa-solid fa-circle"></i></span>
+                            <span class="text-muted">Judgment</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="p-3 rounded-3" style="background: rgba(255, 255, 255, 0.03);">
+                            <small class="text-secondary d-block">Court Jurisdiction</small>
+                            <span class="fw-bold text-white" id="modalCourtName">Court Name</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 rounded-3" style="background: rgba(255, 255, 255, 0.03);">
+                            <small class="text-secondary d-block">Next Court Hearing</small>
+                            <span class="fw-bold text-warning" id="modalHearingDate">Soon</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 rounded-3" style="background: rgba(255, 255, 255, 0.03);">
+                            <small class="text-secondary d-block">Appointed Advocate</small>
+                            <span class="fw-bold text-white" id="modalLawyerName">Advocate</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 rounded-3" style="background: rgba(255, 255, 255, 0.03);">
+                            <small class="text-secondary d-block">Opposing Party</small>
+                            <span class="fw-bold text-white" id="modalOpponentName">Opponent</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="p-3 rounded-3" style="background: rgba(255, 255, 255, 0.03);">
+                            <small class="text-secondary d-block">Case Narrative & Prayer</small>
+                            <p class="text-light small mb-0 mt-1" id="modalCaseDesc">Details here...</p>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="p-3 rounded-3" style="background: rgba(255, 255, 255, 0.03);">
+                            <small class="text-secondary d-block">Directives & Remarks</small>
+                            <p class="text-light small mb-0 mt-1" id="modalRemarks">Remarks here...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-secondary border-opacity-25">
+                <a href="/UserCase/DocumentVault" class="btn btn-modern-outline btn-sm"><i class="fa-solid fa-vault me-1"></i> Open Evidence Vault</a>
+                <button type="button" class="btn btn-modern-primary btn-sm" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-</form>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            if (!$('#inputFilingDate').val()) {
+                document.getElementById('inputFilingDate').valueAsDate = new Date();
+            }
+            triggerAdvocateSuggestions();
+        });
+
+        function triggerAdvocateSuggestions() {
+            const caseType = $('#selectCaseType').val() || '';
+            const title = $('#inputCaseTitle').val() || '';
+            const query = caseType + ' ' + title;
+
+            $.ajax({
+                url: '/UserCase/SuggestAdvocate',
+                type: 'GET',
+                data: { query: query },
+                success: function (data) {
+                    renderAdvocateSuggestions(data);
+                }
+            });
+        }
+
+        function renderAdvocateSuggestions(advocates) {
+            const container = $('#advocateSuggestionsRow');
+            container.empty();
+
+            if (!advocates || advocates.length === 0) return;
+
+            advocates.forEach(adv => {
+                const card = $(`
+                    <div class="col-md-6">
+                        <div class="p-2 rounded-3 d-flex align-items-center justify-content-between" style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255, 255, 255, 0.08);">
+                            <div class="d-flex align-items-center gap-2">
+                                <div style="width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, #6366f1, #06b6d4); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 0.85rem;">
+                                    ${adv.avatarText || 'ADV'}
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-white small d-flex align-items-center gap-1">
+                                        <span>${adv.name}</span>
+                                        <span class="badge bg-success bg-opacity-25 text-success" style="font-size: 0.6rem;">${adv.badge}</span>
+                                    </div>
+                                    <div class="text-secondary" style="font-size: 0.72rem;">${adv.specialization} &bull; <span class="text-info">${adv.winRate}</span></div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-modern-primary py-1 px-2" style="font-size: 0.75rem;" onclick="assignAdvocate('${adv.name}')">
+                                <i class="fa-solid fa-user-plus me-1"></i> Assign
+                            </button>
+                        </div>
+                    </div>
+                `);
+                container.append(card);
+            });
+        }
+
+        function assignAdvocate(advName) {
+            $('#inputLawyerName').val(advName);
+            alert(`Assigned ${advName} to this case!`);
+        }
+
+        function viewCaseModal(id, title, type, court, hearing, status, lawyer, opponent, desc, remarks) {
+            $('#modalCaseTitle').text(title);
+            $('#modalCourtName').text(court);
+            $('#modalHearingDate').text(hearing);
+            $('#modalLawyerName').text(lawyer || 'Unassigned');
+            $('#modalOpponentName').text(opponent || 'N/A');
+            $('#modalCaseDesc').text(desc || 'No detailed description provided.');
+            $('#modalRemarks').text(remarks || 'No remarks recorded.');
+            const modal = new bootstrap.Modal(document.getElementById('caseDetailModal'));
+            modal.show();
+        }
+    </script>
+}

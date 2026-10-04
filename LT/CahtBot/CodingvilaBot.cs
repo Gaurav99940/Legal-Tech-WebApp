@@ -28,7 +28,7 @@ namespace LT.CahtBot
             else
             {
                 return "I'm not sure how to help with that, but I'm learning more every day!";
-            }
+            } 
         }
     }
 }

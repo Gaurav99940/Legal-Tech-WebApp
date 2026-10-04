@@ -1,105 +1,138 @@
-﻿@model LT.Model.ViewModels.UserSignUp
+@model LT.Model.ViewModels.UserSignUp
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Create Account";
     Layout = null;
 }
 
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="ltr">
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta name="description" content="Robust admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template.">
-    <meta name="keywords" content="Ethcial Web Solution">
-    <meta name="author" content="Ethcial Web Solution">
-    <title>Login : Ethcial Web Solution</title>
-    <link rel="apple-touch-icon" href="images/fevicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="images/fevicon.ico">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CMuli:300,400,500,700" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="app-assets/css/vendors.css">
-    <link rel="stylesheet" type="text/css" href="app-assets/css/app.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>Sign Up - LegalTech AI Portal</title>
+    
+    <link rel="shortcut icon" type="image/x-icon" href="/images/fevicon.ico" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    
+    <link href="~/css/modern-legaltech.css?v=@DateTime.Now.Ticks" rel="stylesheet" />
+
+    <style>
+        :root, [data-theme="dark"], body:not([data-theme="light"]) {
+            --bs-body-color: #ffffff !important;
+            color-scheme: dark !important;
+        }
+        input, select, textarea, .form-control, .modern-input, .input-group .form-control {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            caret-color: #ffffff !important;
+            background-color: #0f172a !important;
+            border: 1px solid rgba(255, 255, 255, 0.25) !important;
+        }
+        input:focus, select:focus, textarea:focus, .form-control:focus, .modern-input:focus, .input-group .form-control:focus {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            caret-color: #ffffff !important;
+            background-color: #141e33 !important;
+            border-color: #6366f1 !important;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.35) !important;
+        }
+        [data-theme="light"] input, [data-theme="light"] select, [data-theme="light"] textarea,
+        [data-theme="light"] .form-control, [data-theme="light"] .modern-input, [data-theme="light"] .input-group .form-control,
+        body.light-theme input, body.light-theme select, body.light-theme textarea,
+        body.light-theme .form-control, body.light-theme .modern-input, body.light-theme .input-group .form-control {
+            color: #0f172a !important;
+            -webkit-text-fill-color: #0f172a !important;
+            caret-color: #0f172a !important;
+            background-color: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+        }
+        [data-theme="light"] input:focus, [data-theme="light"] select:focus, [data-theme="light"] textarea:focus,
+        [data-theme="light"] .form-control:focus, [data-theme="light"] .modern-input:focus, [data-theme="light"] .input-group .form-control:focus,
+        body.light-theme input:focus, body.light-theme select:focus, body.light-theme textarea:focus,
+        body.light-theme .form-control:focus, body.light-theme .modern-input:focus, body.light-theme .input-group .form-control:focus {
+            color: #0f172a !important;
+            -webkit-text-fill-color: #0f172a !important;
+            caret-color: #0f172a !important;
+            background-color: #ffffff !important;
+            border-color: #6366f1 !important;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2) !important;
+        }
+    </style>
 </head>
-
-<body class="vertical-layout vertical-menu 1-column  bg-full-screen-image menu-expanded blank-page blank-page" data-open="click" data-menu="vertical-menu" data-col="1-column">
-    <div class="app-content content">
-        <div class="content-wrapper">
-            <div class="content-header row">
-            </div>
-            <div class="content-body">
-                <section class="flexbox-container">
-                    <div class="col-12 d-flex align-items-center justify-content-center">
-                        <div class="col-md-4 col-10 box-shadow-2 p-0">
-                            <div class="card border-grey border-lighten-3 px-1 py-1 m-0">
-                                <div class="card-header border-0">
-                                    <div class="card-title text-center">
-                                        <img src="images/logo.png" style="width:50%" alt="branding logo">
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>Legal Tech Solution Portal</span></p>
-                                    <div class="card-body">
-                                        @if (ViewBag.Message != null)
-                                        {
-                                            <p class="alert alert-warning">@ViewBag.Message</p>
-                                        }
-
-                                        <form class="form-horizontal" method="post" asp-controller="Home" asp-action="SignUp" autocomplete="off">
-                                            @if (ViewBag.PlainText == "1")
-                                            {
-                                                <fieldset class="form-group position-relative has-icon-left">
-                                                    <input asp-for="firstName" type="text" class="form-control" name="firstName" placeholder="Enter First Name">
-                                                    <div class="form-control-position">
-                                                        <i class="ft-user icon-purple"></i>
-                                                    </div>
-                                                </fieldset>
-                                                <fieldset class="form-group position-relative has-icon-left">
-                                                    <input asp-for="lastName" type="text" class="form-control" name="lastName" placeholder="Enter Last Name">
-                                                    <div class="form-control-position">
-                                                        <i class="ft-user icon-purple"></i>
-                                                    </div>
-                                                </fieldset>
-                                                <fieldset class="form-group position-relative has-icon-left">
-                                                    <input asp-for="email" type="email" class="form-control" name="email" placeholder="Enter Email ID">
-                                                    <div class="form-control-position">
-                                                        <i class="ft-user icon-purple"></i>
-                                                    </div>
-                                                </fieldset>
-                                                <fieldset class="form-group position-relative has-icon-left">
-                                                    <input asp-for="password" type="password" class="form-control" name="password" placeholder="Enter Password">
-                                                    <div class="form-control-position">
-                                                        <i class="fa fa-key icon-purple"></i>
-                                                    </div>
-                                                </fieldset>
-                                                <button type="submit" class="btn btn-outline-custome btn-block"><i class="ft-unlock"></i> Sign-Up</button>
-                                                <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>Already have an account <a asp-controller="Home" asp-action="Index">Login here</a></span></p>
-                                            }
-                                            @if (ViewBag.SSO == "1")
-                                            {
-                                                <a asp-controller="Home" asp-action="SignUp" class="btn btn-outline-info btn-block">
-                                                    <i class="ft-unlock"></i><span> Login with Microsoft Account</span>
-                                                </a>
-                                            }
-                                        </form>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
+<body class="d-flex align-items-center justify-content-center py-5" style="min-height: 100vh;">
+    <div class="container py-3 position-relative" style="z-index: 2; max-width: 520px;">
+        <div class="glass-panel p-4 p-md-5">
+            <div class="text-center mb-4">
+                <a href="/" class="d-inline-flex align-items-center gap-2 text-decoration-none mb-3">
+                    <div style="width: 48px; height: 48px; border-radius: 14px; background: var(--grad-primary); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);">
+                        <i class="fa-solid fa-scale-balanced text-white fs-4"></i>
                     </div>
-                </section>
+                    <span class="fs-3 fw-bold text-white">Legal<span class="text-gradient">Tech</span></span>
+                </a>
+                <h4 class="text-white fw-bold mb-1">Create Your Account</h4>
+                <p class="text-secondary small mb-0">Join India's next-generation digital litigation platform</p>
+            </div>
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-warning d-flex align-items-center gap-2 p-3 rounded-3 mb-3 small" style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); color: #fbbf24;">
+                    <i class="fa-solid fa-triangle-exclamation fs-5"></i>
+                    <div>@ViewBag.Message</div>
+                </div>
+            }
+
+            <form method="post" asp-controller="Home" asp-action="SignUp" autocomplete="off">
+                <div class="row g-2 mb-3">
+                    <div class="col-6">
+                        <label class="modern-label">First Name</label>
+                        <input asp-for="firstName" type="text" class="form-control modern-input" placeholder="e.g. Gaurav" required />
+                    </div>
+                    <div class="col-6">
+                        <label class="modern-label">Last Name</label>
+                        <input asp-for="lastName" type="text" class="form-control modern-input" placeholder="e.g. Singh" required />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="modern-label">Email Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-secondary border-opacity-25 text-secondary"><i class="fa-solid fa-envelope"></i></span>
+                        <input asp-for="email" type="email" class="form-control modern-input" placeholder="advocate@domain.com" required />
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="modern-label">Create Secure Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-secondary border-opacity-25 text-secondary"><i class="fa-solid fa-lock"></i></span>
+                        <input asp-for="password" type="password" class="form-control modern-input" placeholder="Minimum 6 characters" required />
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-modern-primary w-100 py-3 mb-3">
+                    <i class="fa-solid fa-user-plus me-2"></i> Register & Create Account
+                </button>
+            </form>
+
+            <div class="text-center pt-3 border-top border-secondary border-opacity-25">
+                <p class="small text-secondary mb-2">
+                    Already have an account? <a asp-controller="Home" asp-action="Index" class="text-gradient fw-bold text-decoration-none">Login Here</a>
+                </p>
+                <a href="/" class="small text-muted text-decoration-none hover-white">
+                    <i class="fa-solid fa-arrow-left me-1"></i> Return to Homepage
+                </a>
             </div>
         </div>
     </div>
-    @* <input type="hidden" id="isAuthenticated" value="@User.Identity.IsAuthenticated.ToString()" /> *@
-    <script src="~/app-assets/vendors/js/vendors.min.js"></script>
-   @*  <script>
-        $(document).ready(function () {
-            if ($("#isAuthenticated").val().toString() == "True")
-                window.location.href = "/Dashboard/Home";
-        });
-    </script> *@
-</body>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

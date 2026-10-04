@@ -1,0 +1,71 @@
+name: LegalTech Pro CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build & Validate
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET 8.0 SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore NuGet Packages
+      run: dotnet restore LT/LT.csproj
+
+    - name: Build Application (Release)
+      run: dotnet build LT/LT.csproj --configuration Release --no-restore
+
+    - name: Publish Web App
+      run: dotnet publish LT/LT.csproj --configuration Release --output ./publish
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: legaltech-webapp-publish
+        path: ./publish
+
+  deploy:
+    name: Deploy to Cloud / Vercel
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+
+    steps:
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    - name: Download Build Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: legaltech-webapp-publish
+        path: ./publish
+
+    - name: Deploy to Vercel
+      if: env.VERCEL_TOKEN != ''
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        vercel-args: '--prod'
+      env:
+        VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+    - name: Deploy to Render / Cloud Webhook (Optional)
+      if: env.RENDER_DEPLOY_HOOK != ''
+      run: |
+        curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
+      env:
+        RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}

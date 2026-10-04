@@ -1,0 +1,21 @@
+## .NET Core / ASP.NET Core
+bin/
+obj/
+publish/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+.vs/
+.vscode/
+_ReSharper*/
+*.DotSettings.user
+
+## Temporary / Logs
+*.log
+cookies.txt
+cookies_clean.txt
+appsettings.Development.json
+
+## Vercel / Deployments
+.vercel

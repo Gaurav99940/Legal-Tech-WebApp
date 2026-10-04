@@ -1,73 +1,52 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LT.Model.Models.UserCaseModels
 {
     public class UserCourtCaseDetails
     {
         [Key]
-        public int CaseID { get; set; } // Primary Key
+        public int CaseID { get; set; }
 
-        [Required]
-        public int UserID { get; set; } // Foreign Key linking to the Users table
+        public int? UserID { get; set; }
 
-        [Required]
-        [MaxLength(255)]
-        public string CaseTitle { get; set; } // Short description of the case
+        public string? CaseTitle { get; set; }
 
-        [Required]
-        [MaxLength(100)]
-        public string CaseType { get; set; } // e.g., Civil, Criminal, etc.
+        public string? CaseType { get; set; }
 
-        [Required]
-        [MaxLength(255)]
-        public string CourtName { get; set; } // Court handling the case
+        public string? CourtName { get; set; }
 
-        [Required]
-        public DateTime FilingDate { get; set; } // Date the case was filed
+        public DateTime FilingDate { get; set; } = DateTime.Now;
 
-        public DateTime? HearingDate { get; set; } // Next hearing date (nullable)
+        public DateTime? HearingDate { get; set; }
 
-        [Required]
-        [MaxLength(50)]
-        public string CaseStatus { get; set; } // Status of the case (Pending, Closed, etc.)
+        public string? CaseStatus { get; set; }
 
-        [MaxLength(255)]
-        public string LawyerName { get; set; } // User's lawyer name
+        public string? LawyerName { get; set; }
 
-        [MaxLength(255)]
-        public string OpponentName { get; set; } // Name of the opposing party
+        public string? OpponentName { get; set; }
 
-        [MaxLength(255)]
-        public string OpponentLawyerName { get; set; } // Opponent's lawyer name
+        public string? OpponentLawyerName { get; set; }
 
-        public string CaseDescription { get; set; } // Detailed description of the case
+        public string? CaseDescription { get; set; }
 
-        public DateTime? VerdictDate { get; set; } // Date of final verdict (nullable)
+        public DateTime? VerdictDate { get; set; }
 
-        public string VerdictDetails { get; set; } // Details of the verdict (nullable)
+        public string? VerdictDetails { get; set; }
 
-        [Required]
-        public DateTime CreatedDate { get; set; } = DateTime.Now; // Auto-set creation date
+        public DateTime? CreatedDate { get; set; } = DateTime.Now;
 
-        [Required]
-        public DateTime ModifiedDate { get; set; } = DateTime.Now; // Auto-set modification date
+        public DateTime? ModifiedDate { get; set; } = DateTime.Now;
 
-        [Required]
-        public bool IsActive { get; set; } = true; // Flag to mark the case as active/inactive
+        public bool? IsActive { get; set; } = true;
 
         public string? pdf { get; set; }
 
-        public string Remarks { get; set; } // Additional remarks or notes
+        public string? Remarks { get; set; }
 
         [NotMapped]
         public IFormFile? pdfFile { get; set; }
-
     }
 }

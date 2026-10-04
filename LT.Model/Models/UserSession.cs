@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LT.Model.Models
 {
@@ -11,7 +6,7 @@ namespace LT.Model.Models
     {
         [Key]
         public int id { get; set; }
-        public string userid { get; set; }
-        public string sessionid { get; set; }
+        public string? userid { get; set; }
+        public string? sessionid { get; set; }
     }
 }

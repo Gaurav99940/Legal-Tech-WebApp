@@ -1,0 +1,391 @@
+@using LT.Services
+@{
+    ViewData["Title"] = "Verified Advocate Directory & Booking";
+    ViewData["ParentTitle"] = "Advocates";
+    Layout = "~/Views/Shared/_UserDashboardLayout.cshtml";
+    var advocates = CaseDataStore.GetAllAdvocates();
+}
+
+<div class="row g-4">
+    <div class="col-12">
+        <div class="glass-panel p-4 p-lg-5" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 27, 75, 0.8) 100%);">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div style="width: 50px; height: 50px; border-radius: 14px; background: var(--grad-primary); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-user-tie text-white fs-4"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-white fw-bold mb-0">Verified Advocates & Senior Counsels</h3>
+                        <small class="text-secondary">Search any advocate across High Courts & Supreme Court of India</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="glass-panel p-3">
+            <div class="row g-3 align-items-center">
+                <div class="col-lg-5">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-secondary border-opacity-25 text-secondary"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <input type="text" id="advocateSearch" class="form-control modern-input" placeholder="Search any advocate by name, court, bar reg no..." autocomplete="off" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <select id="specFilter" class="form-select modern-select">
+                        <option value="">All Legal Specializations</option>
+                        <option value="Criminal">Criminal & Bail Defense</option>
+                        <option value="Commercial">Commercial & Corporate Arbitration</option>
+                        <option value="Constitutional">Constitutional & Writ Petitions</option>
+                        <option value="Family">Family, Divorce & Custody</option>
+                        <option value="Cyber">Cyber Crime & IT Act</option>
+                        <option value="Cheque">Section 138 NI Act (Cheque Bounce)</option>
+                        <option value="Property">Land Revenue & Property Partition</option>
+                    </select>
+                </div>
+                <div class="col-lg-3">
+                    <select id="courtFilter" class="form-select modern-select">
+                        <option value="">All Courts & Benches</option>
+                        <option value="Supreme">Supreme Court of India</option>
+                        <option value="Delhi">Delhi High Court</option>
+                        <option value="Bombay">Bombay High Court</option>
+                        <option value="Madras">Madras High Court</option>
+                        <option value="Allahabad">Allahabad High Court</option>
+                        <option value="District">District & Sessions Courts</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="row g-4" id="advocateGrid">
+            @foreach (var adv in advocates)
+            {
+                <div class="col-lg-4 col-md-6 advocate-item">
+                    <div class="glass-panel p-4 h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div style="width: 58px; height: 58px; border-radius: 16px; background: var(--grad-primary); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: white; font-weight: bold; flex-shrink: 0;">
+                                    @adv.AvatarText
+                                </div>
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <div class="d-flex align-items-center gap-1">
+                                        <h5 class="text-white fw-bold mb-0 text-truncate">@adv.Name</h5>
+                                        <i class="fa-solid fa-circle-check text-info small" title="Bar Council Verified Counsel"></i>
+                                    </div>
+                                    <div class="text-info small fw-semibold">@adv.Badge</div>
+                                    <div class="text-warning small mt-1">
+                                        <i class="fa-solid fa-star"></i> @adv.Rating <span class="text-secondary">(@adv.ReviewCount reviews)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-2 px-3 rounded-2 mb-3 d-flex align-items-center justify-content-between" style="background: rgba(99, 102, 241, 0.12); border: 1px solid rgba(99, 102, 241, 0.25);">
+                                <div class="small text-white">
+                                    <i class="fa-solid fa-id-card text-info me-1"></i> Bar Reg: <strong>@adv.BarCouncilNo</strong>
+                                </div>
+                                <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 small">Active</span>
+                            </div>
+
+                            <div class="mb-3 d-flex flex-column gap-1 small">
+                                <div class="text-light d-flex align-items-center gap-2">
+                                    <i class="fa-solid fa-phone text-success" style="width: 16px;"></i>
+                                    <a href="tel:@adv.Phone" class="text-light text-decoration-none hover-info fw-semibold">@adv.Phone</a>
+                                </div>
+                                <div class="text-light d-flex align-items-center gap-2">
+                                    <i class="fa-solid fa-envelope text-purple" style="width: 16px;"></i>
+                                    <a href="mailto:@adv.Email" class="text-light text-decoration-none hover-info text-truncate">@adv.Email</a>
+                                </div>
+                                <div class="text-secondary d-flex align-items-center gap-2">
+                                    <i class="fa-solid fa-building-columns text-warning" style="width: 16px;"></i>
+                                    <span>@adv.Court</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <small class="text-secondary d-block mb-1 fw-bold">PRACTICE AREAS & EXPERTISE</small>
+                                <div class="text-light small" style="line-height: 1.45;">@adv.Specialization</div>
+                            </div>
+
+                            <div class="p-3 rounded-3 mb-3" style="background: rgba(6, 9, 19, 0.6); border: 1px solid rgba(255, 255, 255, 0.06);">
+                                <div class="row g-2 text-center">
+                                    <div class="col-4">
+                                        <div class="fw-bold text-white small">@adv.Experience</div>
+                                        <div class="text-muted" style="font-size: 0.7rem;">Experience</div>
+                                    </div>
+                                    <div class="col-4 border-start border-end border-secondary border-opacity-25">
+                                        <div class="fw-bold text-success small">@adv.WinRate</div>
+                                        <div class="text-muted" style="font-size: 0.7rem;">Success Rate</div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="fw-bold text-gradient small">@adv.EstimatedFee</div>
+                                        <div class="text-muted" style="font-size: 0.7rem;">Consultation</div>
+                                    </div>
+                                </div>
+                                <div class="border-top border-secondary border-opacity-10 mt-2 pt-2 text-start">
+                                    <small class="text-muted" style="font-size: 0.72rem;"><strong>Track Record:</strong> @adv.RecentTrackRecord</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-modern-primary flex-grow-1" onclick="openBookingModal('@adv.Name', '@adv.Specialization', '@adv.EstimatedFee', '@adv.Phone')">
+                                <i class="fa-solid fa-calendar-check me-1"></i> Book Consultation
+                            </button>
+                            <a href="tel:@adv.Phone" class="btn btn-modern-outline px-3" title="Call Chamber">
+                                <i class="fa-solid fa-phone"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-panel border-0 text-white" style="background: rgba(11, 17, 32, 0.98);">
+            <div class="modal-header border-secondary border-opacity-25">
+                <div>
+                    <h5 class="modal-title fw-bold text-white" id="modalAdvocateName">Consultation Booking</h5>
+                    <small class="text-info" id="modalAdvocateSpec">Legal Counsel</small>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="bookingForm">
+                    <div class="d-flex justify-content-between align-items-center p-3 rounded-3 mb-3" style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2);">
+                        <span class="small text-secondary">Consultation Fee</span>
+                        <span class="fw-bold text-gradient fs-5" id="modalAdvocateFee">₹2,500</span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="modern-label">Client Name</label>
+                        <input type="text" class="form-control modern-input" required placeholder="Enter client name" value="XYZ Enterprise Client" />
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="modern-label">Mobile Phone Number</label>
+                            <input type="tel" class="form-control modern-input" required placeholder="+91 XXXXX XXXXX" value="+91 98765 43210" />
+                        </div>
+                        <div class="col-6">
+                            <label class="modern-label">Email Address</label>
+                            <input type="email" class="form-control modern-input" required placeholder="client@example.com" value="client@example.com" />
+                        </div>
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="modern-label">Appointment Date</label>
+                            <input type="date" class="form-control modern-input" required id="bookingDate" />
+                        </div>
+                        <div class="col-6">
+                            <label class="modern-label">Preferred Time Slot</label>
+                            <select class="form-select modern-select" required>
+                                <option value="10:00 AM">10:00 AM - 10:45 AM</option>
+                                <option value="02:30 PM">02:30 PM - 03:15 PM</option>
+                                <option value="04:00 PM">04:00 PM - 04:45 PM</option>
+                                <option value="06:30 PM">06:30 PM - 07:15 PM</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="modern-label">Mode of Consultation</label>
+                        <select class="form-select modern-select">
+                            <option value="Video">Encrypted HD Video Call</option>
+                            <option value="Chamber">In-Chamber Meeting (Chamber Office)</option>
+                            <option value="Phone">Direct Phone Conference</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="modern-label">Brief Matter / Case Summary</label>
+                        <textarea class="form-control modern-textarea" rows="2" placeholder="Briefly describe legal issue..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-modern-primary w-100 py-3">
+                        <i class="fa-solid fa-lock me-2"></i> Confirm & Reserve Appointment
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-panel border-0 text-white text-center p-4" style="background: rgba(11, 17, 32, 0.98);">
+            <div class="mb-3 mx-auto" style="width: 70px; height: 70px; border-radius: 50%; background: rgba(16, 185, 129, 0.2); border: 2px solid #10b981; display: flex; align-items: center; justify-content: center;">
+                <i class="fa-solid fa-check text-success fs-2"></i>
+            </div>
+            <h4 class="text-white fw-bold mb-1">Appointment Confirmed!</h4>
+            <p class="text-secondary small mb-3">Your consultation has been booked and synchronized with the legal docket calendar.</p>
+            <div class="p-3 rounded-3 mb-4" style="background: rgba(255, 255, 255, 0.05); border: 1px dashed rgba(255, 255, 255, 0.15);">
+                <div class="text-muted small">Docket Reference ID:</div>
+                <div class="fw-mono text-gradient fw-bold fs-5" id="bookingRefId">LT-ADV-2026-8942</div>
+            </div>
+            <button type="button" class="btn btn-modern-primary w-100" data-bs-dismiss="modal">Done</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const dateInput = document.getElementById('bookingDate');
+        if (dateInput) {
+            dateInput.valueAsDate = new Date(Date.now() + 86400000);
+        }
+
+        function openBookingModal(name, spec, fee, phone) {
+            $('#modalAdvocateName').text(name);
+            $('#modalAdvocateSpec').text(spec);
+            $('#modalAdvocateFee').text(fee);
+            const modalEl = document.getElementById('bookingModal');
+            if (modalEl) {
+                const modal = new bootstrap.Modal(modalEl);
+                modal.show();
+            }
+        }
+
+        $('#bookingForm').on('submit', function (e) {
+            e.preventDefault();
+            const bookingEl = document.getElementById('bookingModal');
+            const bookingModal = bootstrap.Modal.getInstance(bookingEl);
+            if (bookingModal) bookingModal.hide();
+
+            const randomRef = 'LT-ADV-' + Math.floor(100000 + Math.random() * 900000);
+            $('#bookingRefId').text(randomRef);
+
+            const successEl = document.getElementById('successModal');
+            if (successEl) {
+                const successModal = new bootstrap.Modal(successEl);
+                successModal.show();
+            }
+        });
+
+        let searchTimeout;
+        $('#specFilter, #courtFilter, #advocateSearch').on('input change', function () {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(performLiveSearch, 250);
+        });
+
+        function performLiveSearch() {
+            const query = $('#advocateSearch').val() || '';
+            const spec = $('#specFilter').val() || '';
+            const court = $('#courtFilter').val() || '';
+
+            $.ajax({
+                url: '/UserCase/SearchLiveAdvocates',
+                type: 'GET',
+                data: { query: query, specialization: spec, court: court },
+                success: function (data) {
+                    renderAdvocates(data);
+                }
+            });
+        }
+
+        function renderAdvocates(list) {
+            const grid = $('#advocateGrid');
+            grid.empty();
+
+            if (!list || list.length === 0) {
+                grid.html(`
+                    <div class="col-12 text-center py-5">
+                        <div class="text-secondary fs-4 mb-2"><i class="fa-solid fa-user-slash"></i></div>
+                        <h5 class="text-white fw-bold">No matching advocate found</h5>
+                        <p class="text-muted small">Try searching another advocate name or court.</p>
+                    </div>
+                `);
+                return;
+            }
+
+            list.forEach(adv => {
+                const card = `
+                    <div class="col-lg-4 col-md-6 advocate-item">
+                        <div class="glass-panel p-4 h-100 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <div style="width: 58px; height: 58px; border-radius: 16px; background: var(--grad-primary); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: white; font-weight: bold; flex-shrink: 0;">
+                                        ${adv.avatarText || 'ADV'}
+                                    </div>
+                                    <div class="flex-grow-1 overflow-hidden">
+                                        <div class="d-flex align-items-center gap-1">
+                                            <h5 class="text-white fw-bold mb-0 text-truncate">${adv.name}</h5>
+                                            <i class="fa-solid fa-circle-check text-info small" title="Bar Council Verified Counsel"></i>
+                                        </div>
+                                        <div class="text-info small fw-semibold">${adv.badge}</div>
+                                        <div class="text-warning small mt-1">
+                                            <i class="fa-solid fa-star"></i> ${adv.rating} <span class="text-secondary">(${adv.reviewCount} reviews)</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="p-2 px-3 rounded-2 mb-3 d-flex align-items-center justify-content-between" style="background: rgba(99, 102, 241, 0.12); border: 1px solid rgba(99, 102, 241, 0.25);">
+                                    <div class="small text-white">
+                                        <i class="fa-solid fa-id-card text-info me-1"></i> Bar Reg: <strong>${adv.barCouncilNo}</strong>
+                                    </div>
+                                    <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 small">Active</span>
+                                </div>
+
+                                <div class="mb-3 d-flex flex-column gap-1 small">
+                                    <div class="text-light d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-phone text-success" style="width: 16px;"></i>
+                                        <a href="tel:${adv.phone}" class="text-light text-decoration-none hover-info fw-semibold">${adv.phone}</a>
+                                    </div>
+                                    <div class="text-light d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-envelope text-purple" style="width: 16px;"></i>
+                                        <a href="mailto:${adv.email}" class="text-light text-decoration-none hover-info text-truncate">${adv.email}</a>
+                                    </div>
+                                    <div class="text-secondary d-flex align-items-center gap-2">
+                                        <i class="fa-solid fa-building-columns text-warning" style="width: 16px;"></i>
+                                        <span>${adv.court}</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <small class="text-secondary d-block mb-1 fw-bold">PRACTICE AREAS & EXPERTISE</small>
+                                    <div class="text-light small" style="line-height: 1.45;">${adv.specialization}</div>
+                                </div>
+
+                                <div class="p-3 rounded-3 mb-3" style="background: rgba(6, 9, 19, 0.6); border: 1px solid rgba(255, 255, 255, 0.06);">
+                                    <div class="row g-2 text-center">
+                                        <div class="col-4">
+                                            <div class="fw-bold text-white small">${adv.experience}</div>
+                                            <div class="text-muted" style="font-size: 0.7rem;">Experience</div>
+                                        </div>
+                                        <div class="col-4 border-start border-end border-secondary border-opacity-25">
+                                            <div class="fw-bold text-success small">${adv.winRate}</div>
+                                            <div class="text-muted" style="font-size: 0.7rem;">Success Rate</div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="fw-bold text-gradient small">${adv.estimatedFee}</div>
+                                            <div class="text-muted" style="font-size: 0.7rem;">Consultation</div>
+                                        </div>
+                                    </div>
+                                    <div class="border-top border-secondary border-opacity-10 mt-2 pt-2 text-start">
+                                        <small class="text-muted" style="font-size: 0.72rem;"><strong>Track Record:</strong> ${adv.recentTrackRecord}</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-modern-primary flex-grow-1" onclick="openBookingModal('${adv.name}', '${adv.specialization.replace(/'/g, "\\'")}', '${adv.estimatedFee}', '${adv.phone}')">
+                                    <i class="fa-solid fa-calendar-check me-1"></i> Book Consultation
+                                </button>
+                                <a href="tel:${adv.phone}" class="btn btn-modern-outline px-3" title="Call Chamber">
+                                    <i class="fa-solid fa-phone"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.append(card);
+            });
+        }
+    </script>
+}

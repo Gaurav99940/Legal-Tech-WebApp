@@ -1,112 +1,304 @@
-﻿<!DOCTYPE html>
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta name="description" content="Robust admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template.">
-    <meta name="keywords" content="Ethical Web Solution ci, Ethical Web Solution">
-    <meta name="author" content="Ethical Web Solution CI">
-    <title>@ViewData["Title"] - LT</title>
-    <link rel="apple-touch-icon" href="/images/fevicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="/images/fevicon.ico">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CMuli:300,400,500,700" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-          crossorigin="anonymous" />
-    <link href="~/custome-css/herosectioncss.css" rel="stylesheet" />
-    <!--BEGIN VENDOR CSS -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>@ViewData["Title"] - LegalTech AI Platform</title>
     
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/images/fevicon.ico" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    
+    <!-- Bootstrap 5 & FontAwesome 6 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    
+    <link href="~/css/modern-legaltech.css?v=@DateTime.Now.Ticks" rel="stylesheet" />
+
+    <style>
+        :root, [data-theme="dark"], body:not([data-theme="light"]) {
+            --bs-body-color: #ffffff !important;
+            color-scheme: dark !important;
+        }
+        input, select, textarea, .form-control, .modern-input, .input-group .form-control {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            caret-color: #ffffff !important;
+            background-color: #0f172a !important;
+            border: 1px solid rgba(255, 255, 255, 0.25) !important;
+        }
+        input:focus, select:focus, textarea:focus, .form-control:focus, .modern-input:focus, .input-group .form-control:focus {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            caret-color: #ffffff !important;
+            background-color: #141e33 !important;
+            border-color: #6366f1 !important;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.35) !important;
+        }
+        [data-theme="light"] input, [data-theme="light"] select, [data-theme="light"] textarea,
+        [data-theme="light"] .form-control, [data-theme="light"] .modern-input, [data-theme="light"] .input-group .form-control,
+        body.light-theme input, body.light-theme select, body.light-theme textarea,
+        body.light-theme .form-control, body.light-theme .modern-input, body.light-theme .input-group .form-control {
+            color: #0f172a !important;
+            -webkit-text-fill-color: #0f172a !important;
+            caret-color: #0f172a !important;
+            background-color: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+        }
+        [data-theme="light"] input:focus, [data-theme="light"] select:focus, [data-theme="light"] textarea:focus,
+        [data-theme="light"] .form-control:focus, [data-theme="light"] .modern-input:focus, [data-theme="light"] .input-group .form-control:focus,
+        body.light-theme input:focus, body.light-theme select:focus, body.light-theme textarea:focus,
+        body.light-theme .form-control:focus, body.light-theme .modern-input:focus, body.light-theme .input-group .form-control:focus {
+            color: #0f172a !important;
+            -webkit-text-fill-color: #0f172a !important;
+            caret-color: #0f172a !important;
+            background-color: #ffffff !important;
+            border-color: #6366f1 !important;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2) !important;
+        }
+    </style>
+
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem('legaltech_theme') || 'dark';
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
 </head>
 <body>
-    <!--Header Part with Navigation-->
-    <header class="p-3 text-white fixed-top" style="background-color: black; z-index: 1030;">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <!-- Brand or Title -->
-                <h1 class="me-3">Legal Tech</h1>
+    <!-- Top Navigation Bar -->
+    <header>
+        <nav class="navbar navbar-expand-lg fixed-top modern-navbar">
+            <div class="container-fluid px-lg-5">
+                <!-- Brand / Logo -->
+                <a class="navbar-brand d-flex align-items-center text-decoration-none" asp-controller="Hero" asp-action="Index">
+                    <div class="brand-icon-wrapper me-2" style="width: 40px; height: 40px; border-radius: 12px; background: var(--grad-primary); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);">
+                        <i class="fa-solid fa-scale-balanced text-white fs-5"></i>
+                    </div>
+                    <span class="fs-4 fw-bold text-white tracking-tight">Legal<span class="text-gradient">Tech</span></span>
+                    <span class="brand-badge d-none d-sm-inline">AI 3.0</span>
+                </a>
+
+                <!-- Mobile Toggle Button -->
+                <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                    <i class="fa-solid fa-bars-staggered fs-4"></i>
+                </button>
 
                 <!-- Navigation Links -->
-                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0" id="navbar">
-                    <li class="">
-                        <a asp-action="Index" asp-controller="Hero" class="nav-link px-2 @(ViewContext.RouteData.Values["controller"]?.ToString() == "Hero" ? "active" : "")">Home</a>
-                    </li>
-                    <li class="dropdown">
-                        <a class="nav-link px-2 dropdown-toggle" id="featuresDropdown" role="button">Features</a>
-                        <ul class="dropdown-menu" aria-labelledby="featuresDropdown">
-                            <li><a asp-action="AskChatBot" asp-controller="Hero" class="dropdown-item">Chat Bot</a></li>
-                            <li><a asp-action="Feature2" asp-controller="Features" class="dropdown-item">Feature 2</a></li>
-                            <li><a asp-action="Feature3" asp-controller="Features" class="dropdown-item">Feature 3</a></li>
-                        </ul>
-                    </li>
-                    <li class="">
-                        <a asp-action="Index" asp-controller="Pricing" class="nav-link px-2 @(ViewContext.RouteData.Values["controller"]?.ToString() == "Pricing" ? "active" : "")">Pricing</a>
-                    </li>
-                    <li class="">
-                        <a asp-action="Index" asp-controller="FAQ" class="nav-link px-2 @(ViewContext.RouteData.Values["controller"]?.ToString() == "FAQ" ? "active" : "")">FAQs</a>
-                    </li>
-                    <li class="">
-                        <a asp-action="Index" asp-controller="About" class="nav-link px-2 @(ViewContext.RouteData.Values["controller"]?.ToString() == "About" ? "active" : "")">About</a>
-                    </li>
-                </ul>
+                <div class="collapse navbar-collapse" id="navbarMain">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1">
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-modern @(ViewContext.RouteData.Values["controller"]?.ToString() == "Hero" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")" asp-controller="Hero" asp-action="Index">
+                                <i class="fa-solid fa-house me-1"></i> Home
+                            </a>
+                        </li>
+                        
+                        <!-- Features Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link nav-link-modern dropdown-toggle @(ViewContext.RouteData.Values["action"]?.ToString() == "AskChatBot" || ViewContext.RouteData.Values["action"]?.ToString() == "Features" ? "active" : "")" href="#" id="featuresMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-layer-group me-1"></i> Features
+                            </a>
+                            <ul class="dropdown-menu glass-dropdown-menu" aria-labelledby="featuresMenu">
+                                <li>
+                                    <a class="glass-dropdown-item" asp-controller="Hero" asp-action="AskChatBot">
+                                        <i class="fa-solid fa-robot text-info"></i>
+                                        <div>
+                                            <div class="fw-semibold text-white">AI Legal Assistant</div>
+                                            <small class="text-muted">Instant IPC & Statutory Search</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="glass-dropdown-item" asp-controller="Hero" asp-action="BookAdvocate">
+                                        <i class="fa-solid fa-user-tie text-purple"></i>
+                                        <div>
+                                            <div class="fw-semibold text-white">Book Verified Advocate</div>
+                                            <small class="text-muted">Top Legal Practitioners</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="glass-dropdown-item" asp-controller="UserCase" asp-action="HearingCalendar">
+                                        <i class="fa-solid fa-calendar-days text-warning"></i>
+                                        <div>
+                                            <div class="fw-semibold text-white">Court Hearing Calendar</div>
+                                            <small class="text-muted">Real-time Appearance Tracker</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="glass-dropdown-item" asp-controller="UserCase" asp-action="DocumentVault">
+                                        <i class="fa-solid fa-vault text-success"></i>
+                                        <div>
+                                            <div class="fw-semibold text-white">Secure Document Vault</div>
+                                            <small class="text-muted">Encrypted Evidence & Petitions</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="glass-dropdown-item" asp-controller="UserCase" asp-action="LegalDrafts">
+                                        <i class="fa-solid fa-file-signature text-danger"></i>
+                                        <div>
+                                            <div class="fw-semibold text-white">Legal Notice Generator</div>
+                                            <small class="text-muted">Instant Affidavits & Notices</small>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-modern" asp-controller="Hero" asp-action="BookAdvocate">
+                                <i class="fa-solid fa-gavel me-1"></i> Advocates
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-modern" asp-controller="Hero" asp-action="Pricing">
+                                <i class="fa-solid fa-tags me-1"></i> Pricing
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-modern" asp-controller="Hero" asp-action="FAQ">
+                                <i class="fa-solid fa-circle-question me-1"></i> FAQs
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-modern" asp-controller="Hero" asp-action="About">
+                                <i class="fa-solid fa-shield-halved me-1"></i> Security & About
+                            </a>
+                        </li>
+                    </ul>
 
+                    <!-- Right Action Buttons -->
+                    <div class="d-flex align-items-center gap-2">
+                        <button class="btn-theme-toggle me-1" id="themeToggleBtn" title="Toggle Bright / Dark Mode" type="button">
+                            <i class="fa-solid fa-sun" id="themeToggleIcon"></i>
+                        </button>
+                        <a asp-controller="UserDashboard" asp-action="Home" class="btn btn-modern-outline btn-sm px-3 py-2">
+                            <i class="fa-solid fa-gauge"></i> Portal
+                        </a>
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-modern-primary btn-sm px-4 py-2">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i> Login / Sign Up
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-                <!-- Search Form -->
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                    <input type="search"
-                           class="form-control form-control-dark text-white bg-dark"
-                           placeholder="Search..."
-                           aria-label="Search">
-                </form>
+    <!-- Main Content Wrapper -->
+    <main style="padding-top: 85px; min-height: 80vh;">
+        @RenderBody()
+    </main>
 
-                <!-- Login and Sign-Up Buttons -->
-                <div class="text-end">
-                    <!-- Login Button -->
-                    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-light me-2">
-                        Login
+    <!-- Modern Clean Footer -->
+    <footer class="mt-5 py-5 border-top border-secondary border-opacity-25 position-relative" style="background: #060a17;">
+        <div class="container px-4">
+            <div class="row g-4 justify-content-between">
+                <div class="col-lg-4 col-md-6">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="me-2" style="width: 36px; height: 36px; border-radius: 10px; background: var(--grad-primary); display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-scale-balanced text-white"></i>
+                        </div>
+                        <span class="fs-4 fw-bold text-white">Legal<span class="text-gradient">Tech</span></span>
+                    </div>
+                    <p class="text-secondary small mb-3">
+                        Enterprise-grade AI platform revolutionizing case lifecycle workflows, statutory research, court hearing calendars, and advocate coordination across Indian jurisdictions.
+                    </p>
+                    <div class="d-flex gap-3 text-secondary">
+                        <span class="badge bg-dark border border-secondary border-opacity-25 p-2"><i class="fa-solid fa-lock text-success me-1"></i> 256-Bit Encrypted</span>
+                        <span class="badge bg-dark border border-secondary border-opacity-25 p-2"><i class="fa-solid fa-certificate text-info me-1"></i> ISO 27001</span>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-6">
+                    <h6 class="text-white fw-bold mb-3">Solutions</h6>
+                    <ul class="list-unstyled small text-secondary d-flex flex-column gap-2">
+                        <li><a href="/UserCase/AddCase" class="text-secondary text-decoration-none">Case Management</a></li>
+                        <li><a href="/AskChatBot" class="text-secondary text-decoration-none">AI Legal Assistant</a></li>
+                        <li><a href="/UserCase/HearingCalendar" class="text-secondary text-decoration-none">Hearing Calendar</a></li>
+                        <li><a href="/UserCase/DocumentVault" class="text-secondary text-decoration-none">Document Vault</a></li>
+                        <li><a href="/UserCase/LegalDrafts" class="text-secondary text-decoration-none">Legal Notices</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2 col-md-3 col-6">
+                    <h6 class="text-white fw-bold mb-3">Resources</h6>
+                    <ul class="list-unstyled small text-secondary d-flex flex-column gap-2">
+                        <li><a href="/Hero/BookAdvocate" class="text-secondary text-decoration-none">Advocate Network</a></li>
+                        <li><a href="/Hero/Pricing" class="text-secondary text-decoration-none">Pricing Plans</a></li>
+                        <li><a href="/Hero/FAQ" class="text-secondary text-decoration-none">Support & FAQs</a></li>
+                        <li><a href="/Hero/About" class="text-secondary text-decoration-none">Security Architecture</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="text-white fw-bold mb-3">Connect With Legal Experts</h6>
+                    <p class="text-secondary small mb-3">Get instant 24/7 statutory guidance from certified legal AI and seasoned advocates.</p>
+                    <a href="/AskChatBot" class="btn btn-modern-cyan btn-sm w-100 py-2">
+                        <i class="fa-solid fa-comments me-2"></i> Launch AI Legal Chat
                     </a>
-                    <!-- Sign-Up Button -->
-                    <a asp-action="SignUp" asp-controller="Home" class="btn btn-custome-purple text-white">Sign-up</a>
+                </div>
+            </div>
+
+            <div class="border-top border-secondary border-opacity-10 mt-4 pt-4 d-flex flex-wrap justify-content-between align-items-center small text-secondary">
+                <div>Copyright &copy; 2026 LegalTech AI Platform. All rights reserved.</div>
+                <div class="d-flex gap-3">
+                    <a href="#" class="text-secondary text-decoration-none">Privacy Policy</a>
+                    <a href="#" class="text-secondary text-decoration-none">Terms of Service</a>
+                    <a href="#" class="text-secondary text-decoration-none">Compliance</a>
                 </div>
             </div>
         </div>
-    </header>
+    </footer>
 
+    <!-- Floating AI Assistant Widget -->
+    <partial name="_FloatingAIAssistant" />
 
-
-    <div style="padding-top: 80px">
-        @RenderBody()
-    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
-        // Add the 'loaded' class to the body after the page is fully loaded
-        window.addEventListener('load', () => {
-            document.body.classList.add('loaded');
+        function updateThemeIcons() {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            const icon = document.getElementById('themeToggleIcon');
+            if (icon) {
+                if (isLight) {
+                    icon.className = 'fa-solid fa-moon text-primary';
+                } else {
+                    icon.className = 'fa-solid fa-sun text-warning';
+                }
+            }
+        }
+        updateThemeIcons();
+
+        document.getElementById('themeToggleBtn')?.addEventListener('click', function () {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            const newTheme = isLight ? 'dark' : 'light';
+            if (newTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            localStorage.setItem('legaltech_theme', newTheme);
+            updateThemeIcons();
+        });
+
+        $(document).on('hidden.bs.modal', '.modal', function () {
+            if (!$('.modal.show').length) {
+                $('.modal-backdrop').remove();
+                $('body').removeClass('modal-open').css('overflow', 'auto');
+            }
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const dropdowns = document.querySelectorAll('.dropdown');
 
-            dropdowns.forEach(dropdown => {
-                dropdown.addEventListener('mouseenter', () => {
-                    const menu = dropdown.querySelector('.dropdown-menu');
-                    menu.style.display = 'block';
-                });
-
-                dropdown.addEventListener('mouseleave', () => {
-                    const menu = dropdown.querySelector('.dropdown-menu');
-                    menu.style.display = 'none';
-                });
-            });
-        });
-
-    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
