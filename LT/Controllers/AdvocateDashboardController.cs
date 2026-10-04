@@ -15,7 +15,7 @@ namespace LT.Controllers
             ViewBag.BarNo = "D/1842/2012";
             ViewBag.Court = "High Court of Delhi & Supreme Court";
             ViewBag.AdvocatesList = CaseDataStore.GetAllAdvocates();
-            ViewBag.RecentCases = CaseDataStore.GetAllCases();
+            ViewBag.RecentCases = CaseDataStore.GetAll();
 
             return View();
         }
