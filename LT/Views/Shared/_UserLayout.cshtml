@@ -181,11 +181,37 @@
                         <button class="btn-theme-toggle me-1" id="themeToggleBtn" title="Toggle Bright / Dark Mode" type="button">
                             <i class="fa-solid fa-sun" id="themeToggleIcon"></i>
                         </button>
-                        <a asp-controller="UserDashboard" asp-action="Home" class="btn btn-modern-outline btn-sm px-3 py-2">
-                            <i class="fa-solid fa-gauge"></i> Portal
-                        </a>
-                        <a asp-controller="Home" asp-action="Index" class="btn btn-modern-primary btn-sm px-4 py-2">
-                            <i class="fa-solid fa-arrow-right-to-bracket"></i> Login / Sign Up
+
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-modern-outline dropdown-toggle d-flex align-items-center gap-2 py-2 px-3" type="button" id="portalRoleNavDrop" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-user-circle text-info"></i>
+                                <span class="fw-semibold">Portals</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="portalRoleNavDrop" style="background: rgba(14, 21, 42, 0.98); border: 1px solid rgba(255,255,255,0.15); border-radius: 14px; min-width: 220px; padding: 8px;">
+                                <li>
+                                    <a class="dropdown-item text-white small py-2 d-flex align-items-center gap-2 rounded-2" asp-controller="Hero" asp-action="Index">
+                                        <i class="fa-solid fa-user text-primary"></i>
+                                        <span>👤 Client / Litigant Portal</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item text-white small py-2 d-flex align-items-center gap-2 rounded-2" asp-controller="AdvocateDashboard" asp-action="Home">
+                                        <i class="fa-solid fa-scale-balanced text-warning"></i>
+                                        <span>⚖️ Advocate Chamber Portal</span>
+                                    </a>
+                                </li>
+                                <li class="border-top border-secondary border-opacity-25 my-1"></li>
+                                <li>
+                                    <a class="dropdown-item text-white small py-2 d-flex align-items-center gap-2 rounded-2" asp-controller="Home" asp-action="Index">
+                                        <i class="fa-solid fa-arrow-right-to-bracket text-success"></i>
+                                        <span>Sign In / Register</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <a asp-controller="UserCase" asp-action="AddCase" class="btn btn-modern-primary btn-sm px-3 py-2">
+                            <i class="fa-solid fa-plus me-1"></i> File Case
                         </a>
                     </div>
                 </div>
