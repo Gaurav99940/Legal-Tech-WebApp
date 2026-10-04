@@ -205,6 +205,9 @@
         </div>
     </aside>
 
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
+
     <!-- Main Dashboard Content Area -->
     <main class="dashboard-content-area position-relative" style="z-index: 2;">
         <div class="container-fluid">
@@ -244,9 +247,39 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        // Mobile Sidebar toggle handler
-        document.getElementById('sidebarToggle')?.addEventListener('click', function () {
-            document.getElementById('dashboardSidebar')?.classList.toggle('show');
+        // Mobile Sidebar toggle & backdrop handlers
+        const sidebar = document.getElementById('dashboardSidebar');
+        const backdrop = document.getElementById('sidebarBackdrop');
+        const toggleBtn = document.getElementById('sidebarToggle');
+
+        function openSidebar() {
+            sidebar?.classList.add('show');
+            backdrop?.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebar() {
+            sidebar?.classList.remove('show');
+            backdrop?.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        toggleBtn?.addEventListener('click', function () {
+            if (sidebar?.classList.contains('show')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+        });
+
+        backdrop?.addEventListener('click', closeSidebar);
+
+        document.querySelectorAll('.sidebar-nav-link').forEach(link => {
+            link.addEventListener('click', function () {
+                if (window.innerWidth < 992) {
+                    closeSidebar();
+                }
+            });
         });
 
         function updateThemeIcons() {

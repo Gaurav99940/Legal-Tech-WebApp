@@ -297,6 +297,19 @@
                 $('body').removeClass('modal-open').css('overflow', 'auto');
             }
         });
+
+        // Auto close mobile navbar collapse when clicking a link
+        document.querySelectorAll('#navbarMain .nav-link-modern:not(.dropdown-toggle), #navbarMain .glass-dropdown-item').forEach(link => {
+            link.addEventListener('click', function () {
+                const navCollapse = document.getElementById('navbarMain');
+                if (navCollapse && navCollapse.classList.contains('show')) {
+                    const bsCollapse = bootstrap.Collapse.getInstance(navCollapse);
+                    if (bsCollapse) {
+                        bsCollapse.hide();
+                    }
+                }
+            });
+        });
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
