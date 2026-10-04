@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>LegalTech Pro - Next-Gen AI Legal Platform</title>
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/LT/wwwroot/images/fevicon.ico" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    
+    <!-- Bootstrap 5 & FontAwesome 6 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="/LT/wwwroot/css/modern-legaltech.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --bg-main: #090e1f;
+            --grad-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+            --grad-cyan: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            --grad-emerald: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+            --grad-sunset: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+        }
+        [data-theme="light"] {
+            --bg-main: #f1f5f9;
+        }
+        html, body {
+            background-color: var(--bg-main);
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        .prompt-chip {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #cbd5e1;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .prompt-chip:hover {
+            background: rgba(99, 102, 241, 0.3);
+            border-color: #6366f1;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Modern Navbar -->
+    <header>
+        <nav class="navbar navbar-expand-lg fixed-top modern-navbar">
+            <div class="container-fluid px-lg-5">
+                <a class="navbar-brand d-flex align-items-center text-decoration-none" href="#">
+                    <div class="brand-icon-wrapper me-2" style="width: 40px; height: 40px; border-radius: 12px; background: var(--grad-primary); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);">
+                        <i class="fa-solid fa-scale-balanced text-white fs-5"></i>
+                    </div>
+                    <span class="fs-4 fw-bold text-white tracking-tight">Legal<span class="text-gradient">Tech</span></span>
+                    <span class="brand-badge d-none d-sm-inline">AI 3.0</span>
+                </a>
+
+                <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                    <i class="fa-solid fa-bars-staggered fs-4"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarMain">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1">
+                        <li class="nav-item"><a class="nav-link nav-link-modern active" href="#hero"><i class="fa-solid fa-house me-1"></i> Home</a></li>
+                        <li class="nav-item"><a class="nav-link nav-link-modern" href="#features"><i class="fa-solid fa-layer-group me-1"></i> Features</a></li>
+                        <li class="nav-item"><a class="nav-link nav-link-modern" href="#advocates"><i class="fa-solid fa-gavel me-1"></i> Advocates</a></li>
+                        <li class="nav-item"><a class="nav-link nav-link-modern" href="#workflow"><i class="fa-solid fa-timeline me-1"></i> Workflow</a></li>
+                        <li class="nav-item"><a class="nav-link nav-link-modern" href="#pricing"><i class="fa-solid fa-tags me-1"></i> Pricing</a></li>
+                    </ul>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <button class="btn-theme-toggle me-1" id="themeToggleBtn" title="Toggle Bright / Dark Mode" type="button">
+                            <i class="fa-solid fa-sun" id="themeToggleIcon"></i>
+                        </button>
+                        <button class="btn btn-modern-primary btn-sm px-4 py-2" onclick="openAIChat('Section 302 IPC')">
+                            <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Ask AI Legal
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding-top: 85px;">
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section position-relative py-5 py-lg-6" style="min-height: 85vh; display: flex; align-items: center;">
+            <div class="container py-4 position-relative" style="z-index: 2;">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-7 text-center text-lg-start">
+                        <div class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill mb-4" style="background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.35); box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);">
+                            <span class="status-dot" style="background: #06b6d4;"></span>
+                            <span class="small fw-semibold text-white">AI-Powered Legal Tech 3.0 &bull; Live on Vercel</span>
+                        </div>
+
+                        <h1 class="display-4 fw-extrabold text-white mb-4 tracking-tight" style="line-height: 1.15;">
+                            Revolutionizing Justice with <span class="text-gradient">Digital Intelligence</span> & Case Management
+                        </h1>
+
+                        <p class="lead text-secondary mb-5" style="font-size: 1.15rem; max-width: 600px;">
+                            Securely track court matters, access statutory legal AI, file cases, and consult verified High Court & Supreme Court advocates in one seamless platform.
+                        </p>
+
+                        <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start mb-5">
+                            <button class="btn btn-modern-primary btn-lg px-4 py-3" onclick="openAIChat('What is Section 138 NI Act?')">
+                                <i class="fa-solid fa-wand-magic-sparkles text-white me-2"></i> Launch Statutory AI
+                            </button>
+                            <a href="#advocates" class="btn btn-modern-outline btn-lg px-4 py-3">
+                                <i class="fa-solid fa-user-tie text-info me-2"></i> Find Advocates
+                            </a>
+                        </div>
+
+                        <!-- KPI Metrics -->
+                        <div class="row g-2 g-sm-3 pt-2 text-start">
+                            <div class="col-4">
+                                <div class="p-2 p-sm-3 rounded-3 text-center text-sm-start" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);">
+                                    <h3 class="h5 fw-bold text-white mb-0">15,000+</h3>
+                                    <small class="text-secondary" style="font-size: 0.75rem;">Cases Tracked</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="p-2 p-sm-3 rounded-3 text-center text-sm-start" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);">
+                                    <h3 class="h5 fw-bold text-gradient mb-0">99.8%</h3>
+                                    <small class="text-secondary" style="font-size: 0.75rem;">Accuracy</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="p-2 p-sm-3 rounded-3 text-center text-sm-start" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);">
+                                    <h3 class="h5 fw-bold text-info mb-0">850+</h3>
+                                    <small class="text-secondary" style="font-size: 0.75rem;">Advocates</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Live Interactive AI Query Box -->
+                    <div class="col-lg-5">
+                        <div class="glass-card p-4 p-md-5" style="background: rgba(15, 23, 42, 0.9);">
+                            <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div style="width: 34px; height: 34px; border-radius: 8px; background: var(--grad-cyan); display: flex; align-items: center; justify-content: center;">
+                                        <i class="fa-solid fa-bolt text-white"></i>
+                                    </div>
+                                    <span class="fw-bold text-white">Statutory AI Resolver</span>
+                                </div>
+                                <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50">Online</span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="small text-secondary mb-2 fw-semibold">Ask any IPC, BNS, CrPC Section or Law Topic:</label>
+                                <div class="input-group">
+                                    <input type="text" id="quickQueryInput" class="form-control modern-input" placeholder="e.g. 302, 420, 138 NI Act, bail..." value="Section 302 IPC Murder & Bail" />
+                                    <button class="btn btn-modern-cyan px-3" type="button" onclick="runInstantSearch()">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Result Display -->
+                            <div class="p-3 rounded-3 mb-4" id="queryResultBox" style="background: rgba(6, 9, 19, 0.85); border: 1px solid rgba(255, 255, 255, 0.08);">
+                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                    <span class="badge bg-primary text-white" style="font-size: 0.7rem;">Statute Result</span>
+                                    <small class="text-muted" style="font-size: 0.7rem;">Indian Penal Code</small>
+                                </div>
+                                <h6 class="text-white fw-bold mb-1" id="resTitle">Section 302 IPC (Punishment for Murder)</h6>
+                                <p class="small text-secondary mb-2" id="resDesc" style="line-height: 1.45;">
+                                    Whoever commits murder shall be punished with death, or imprisonment for life, and shall also be liable to fine. Cognizable, Non-Bailable, Triable by Court of Session.
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-10">
+                                    <span class="badge bg-danger bg-opacity-25 text-danger" style="font-size: 0.68rem;">Non-Bailable</span>
+                                    <a href="javascript:void(0)" onclick="openAIChat('Section 302 IPC')" class="small text-info text-decoration-none fw-semibold">Full Analysis <i class="fa-solid fa-chevron-right ms-1"></i></a>
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-2">
+                                <span class="prompt-chip" onclick="searchSample('Section 420 Cheating')"><i class="fa-solid fa-magnifying-glass"></i> Sec 420</span>
+                                <span class="prompt-chip" onclick="searchSample('Section 138 Cheque Bounce')"><i class="fa-solid fa-magnifying-glass"></i> 138 Cheque</span>
+                                <span class="prompt-chip" onclick="searchSample('Article 21 Right to Life')"><i class="fa-solid fa-magnifying-glass"></i> Article 21</span>
+                                <span class="prompt-chip" onclick="searchSample('Section 438 Anticipatory Bail')"><i class="fa-solid fa-magnifying-glass"></i> Sec 438 Bail</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Verified Advocates Section -->
+        <section id="advocates" class="py-5 position-relative" style="background: rgba(11, 17, 32, 0.6);">
+            <div class="container py-4">
+                <div class="text-center mb-5">
+                    <span class="text-gradient fw-bold text-uppercase small">High Court & Supreme Court Directory</span>
+                    <h2 class="display-5 fw-bold text-white mt-1">Verified Top Advocates & Senior Counsels</h2>
+                    <p class="text-secondary mx-auto" style="max-width: 600px;">
+                        Search legal practitioners filtered by specialization, Bar Council accreditation, and win rate.
+                    </p>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Adv 1 -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="glass-panel p-4 h-100 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <div style="width: 52px; height: 52px; border-radius: 14px; background: var(--grad-primary); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: white; font-weight: bold;">
+                                        HS
+                                    </div>
+                                    <div>
+                                        <h5 class="text-white fw-bold mb-0">Senior Adv. Harish Salve</h5>
+                                        <small class="text-info fw-semibold">Senior Counsel &bull; Supreme Court</small>
+                                        <div class="text-warning small"><i class="fa-solid fa-star"></i> 4.9 <span class="text-secondary">(340 reviews)</span></div>
+                                    </div>
+                                </div>
+                                <div class="p-2 rounded mb-3 small" style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2);">
+                                    <i class="fa-solid fa-id-card text-info me-1"></i> Bar Reg: <strong>D/1102/1980</strong>
+                                </div>
+                                <div class="small text-secondary mb-3">
+                                    <strong>Specialization:</strong> Constitutional Law, Cross-Border Commercial Arbitration, Corporate Taxation.
+                                </div>
+                            </div>
+                            <button class="btn btn-modern-primary w-100" onclick="alert('Consultation booking request received for Senior Adv. Harish Salve!')">
+                                <i class="fa-solid fa-calendar-check me-1"></i> Book Chamber Consultation
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Adv 2 -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="glass-panel p-4 h-100 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <div style="width: 52px; height: 52px; border-radius: 14px; background: var(--grad-cyan); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: white; font-weight: bold;">
+                                        KS
+                                    </div>
+                                    <div>
+                                        <h5 class="text-white fw-bold mb-0">Senior Adv. Kapil Sibal</h5>
+                                        <small class="text-info fw-semibold">Senior Counsel &bull; Supreme Court & HC</small>
+                                        <div class="text-warning small"><i class="fa-solid fa-star"></i> 4.9 <span class="text-secondary">(295 reviews)</span></div>
+                                    </div>
+                                </div>
+                                <div class="p-2 rounded mb-3 small" style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2);">
+                                    <i class="fa-solid fa-id-card text-info me-1"></i> Bar Reg: <strong>D/582/1972</strong>
+                                </div>
+                                <div class="small text-secondary mb-3">
+                                    <strong>Specialization:</strong> Constitutional Writs, Appellate Jurisdiction, Electoral & Policy Litigation.
+                                </div>
+                            </div>
+                            <button class="btn btn-modern-primary w-100" onclick="alert('Consultation booking request received for Senior Adv. Kapil Sibal!')">
+                                <i class="fa-solid fa-calendar-check me-1"></i> Book Chamber Consultation
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Adv 3 -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="glass-panel p-4 h-100 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <div style="width: 52px; height: 52px; border-radius: 14px; background: var(--grad-emerald); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: white; font-weight: bold;">
+                                        PS
+                                    </div>
+                                    <div>
+                                        <h5 class="text-white fw-bold mb-0">Senior Adv. Priya Sharma</h5>
+                                        <small class="text-info fw-semibold">Commercial Disputes & NI 138</small>
+                                        <div class="text-warning small"><i class="fa-solid fa-star"></i> 4.8 <span class="text-secondary">(180 reviews)</span></div>
+                                    </div>
+                                </div>
+                                <div class="p-2 rounded mb-3 small" style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2);">
+                                    <i class="fa-solid fa-id-card text-info me-1"></i> Bar Reg: <strong>D/1842/2012</strong>
+                                </div>
+                                <div class="small text-secondary mb-3">
+                                    <strong>Specialization:</strong> Cheque Dishonour, Debt Recovery Suits, NCLT & Summary Civil Suits.
+                                </div>
+                            </div>
+                            <button class="btn btn-modern-primary w-100" onclick="alert('Consultation booking request received for Senior Adv. Priya Sharma!')">
+                                <i class="fa-solid fa-calendar-check me-1"></i> Book Chamber Consultation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-5 border-top border-secondary border-opacity-25" style="background: #060a17;">
+        <div class="container text-center text-secondary small">
+            <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                <div style="width: 32px; height: 32px; border-radius: 8px; background: var(--grad-primary); display: flex; align-items: center; justify-content: center;">
+                    <i class="fa-solid fa-scale-balanced text-white"></i>
+                </div>
+                <span class="fs-5 fw-bold text-white">Legal<span class="text-gradient">Tech</span></span>
+            </div>
+            <p class="mb-2">Enterprise-grade AI Platform for Indian Courts & Statutory Research &bull; Deployed on Vercel</p>
+            <p class="text-muted mb-0">Copyright &copy; 2026 LegalTech AI Platform. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Floating AI Widget -->
+    <div id="floating-ai-container" style="position: fixed; bottom: 25px; right: 25px; z-index: 9999;">
+        <button id="btnFloatingAIToggle" class="btn d-flex align-items-center gap-2 shadow-lg" style="background: var(--grad-primary); color: #ffffff; border: none; border-radius: 50px; padding: 12px 22px; font-weight: 700; cursor: pointer;">
+            <i class="fa-solid fa-wand-magic-sparkles text-white"></i>
+            <span>Ask AI Legal</span>
+        </button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        const statuteData = {
+            '302': { title: 'Section 302 IPC (Punishment for Murder)', desc: 'Punishment with death or imprisonment for life, and liable to fine. Cognizable & Non-Bailable. Triable by Court of Session.', nature: 'Non-Bailable' },
+            '420': { title: 'Section 420 IPC (Cheating & Dishonestly Inducing Delivery)', desc: 'Imprisonment up to 7 years and fine for fraudulent inducement and cheating. Cognizable & Non-Bailable.', nature: 'Non-Bailable' },
+            '138': { title: 'Section 138 NI Act (Cheque Dishonour)', desc: 'Dishonour of cheque for insufficiency of funds. Imprisonment up to 2 years or fine up to twice the cheque amount. Non-Cognizable & Bailable.', nature: 'Bailable' },
+            '21': { title: 'Article 21 Constitution (Protection of Life & Liberty)', desc: 'No person shall be deprived of his life or personal liberty except according to procedure established by law. Fundamental Right.', nature: 'Fundamental Right' },
+            '438': { title: 'Section 438 CrPC (Anticipatory Bail)', desc: 'Direction for grant of bail to person apprehending arrest for a non-bailable offense by High Court or Court of Session.', nature: 'Procedural Remedy' }
+        };
+
+        function runInstantSearch() {
+            const val = $('#quickQueryInput').val().toLowerCase();
+            let matched = statuteData['302'];
+            if (val.includes('420') || val.includes('cheat')) matched = statuteData['420'];
+            else if (val.includes('138') || val.includes('cheque')) matched = statuteData['138'];
+            else if (val.includes('21') || val.includes('life')) matched = statuteData['21'];
+            else if (val.includes('438') || val.includes('bail')) matched = statuteData['438'];
+
+            $('#resTitle').text(matched.title);
+            $('#resDesc').text(matched.desc);
+        }
+
+        function searchSample(q) {
+            $('#quickQueryInput').val(q);
+            runInstantSearch();
+        }
+
+        function openAIChat(query) {
+            $('#quickQueryInput').val(query);
+            runInstantSearch();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Theme Toggle
+        document.getElementById('themeToggleBtn')?.addEventListener('click', function () {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            if (isLight) {
+                document.documentElement.removeAttribute('data-theme');
+                document.getElementById('themeToggleIcon').className = 'fa-solid fa-sun text-warning';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                document.getElementById('themeToggleIcon').className = 'fa-solid fa-moon text-primary';
+            }
+        });
+
+        document.getElementById('btnFloatingAIToggle')?.addEventListener('click', function () {
+            openAIChat('Section 302 IPC');
+        });
+    </script>
+</body>
+</html>

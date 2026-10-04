@@ -2,7 +2,16 @@
   "version": 2,
   "name": "legaltech-pro-portal",
   "cleanUrls": true,
-  "framework": null,
+  "routes": [
+    {
+      "src": "/LT/wwwroot/(.*)",
+      "dest": "/LT/wwwroot/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
