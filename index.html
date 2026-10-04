@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-    <title>LegalTech Pro - Complete AI Litigation Platform</title>
+    <title>LegalTech Pro - Dual AI Portal (Client & Advocate)</title>
     
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="/LT/wwwroot/images/fevicon.ico" />
@@ -94,6 +94,28 @@
             border-color: rgba(99, 102, 241, 0.3);
         }
 
+        .portal-mode-btn {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all 0.25s ease;
+        }
+        .portal-mode-btn.active {
+            background: var(--grad-primary);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+        .portal-mode-btn:not(.active) {
+            background: transparent;
+            color: #cbd5e1;
+        }
+        [data-theme="light"] .portal-mode-btn:not(.active) {
+            color: #64748b;
+        }
+
         .prompt-chip {
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -121,15 +143,26 @@
                         <i class="fa-solid fa-scale-balanced text-white fs-5"></i>
                     </div>
                     <span class="fs-4 fw-bold text-white tracking-tight">Legal<span class="text-gradient">Tech</span></span>
-                    <span class="brand-badge d-none d-sm-inline">PRO AI</span>
+                    <span class="brand-badge d-none d-sm-inline" id="portalBadgeLabel">CLIENT PORTAL</span>
                 </a>
+
+                <!-- Dual Portal Switcher in Navbar -->
+                <div class="d-inline-flex align-items-center p-1 rounded-pill mx-2" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);">
+                    <button type="button" class="portal-mode-btn active" id="btnModeClient" onclick="setPortalMode('client')">
+                        <i class="fa-solid fa-user me-1"></i> Client Portal
+                    </button>
+                    <button type="button" class="portal-mode-btn" id="btnModeAdvocate" onclick="setPortalMode('advocate')">
+                        <i class="fa-solid fa-scale-balanced me-1"></i> Advocate Portal
+                    </button>
+                </div>
 
                 <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
                     <i class="fa-solid fa-bars-staggered fs-4"></i>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarMain">
-                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1">
+                    <!-- Client Portal Nav Links -->
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1" id="navClientMenu">
                         <li class="nav-item"><a class="nav-link-tab active" id="nav-hero" onclick="switchTab('tab-hero')"><i class="fa-solid fa-house"></i> Home</a></li>
                         <li class="nav-item"><a class="nav-link-tab" id="nav-cases" onclick="switchTab('tab-cases')"><i class="fa-solid fa-folder-open"></i> Cases & Filing</a></li>
                         <li class="nav-item"><a class="nav-link-tab" id="nav-advocates" onclick="switchTab('tab-advocates')"><i class="fa-solid fa-user-tie"></i> Advocates</a></li>
@@ -139,11 +172,21 @@
                         <li class="nav-item"><a class="nav-link-tab" id="nav-ai" onclick="switchTab('tab-ai')"><i class="fa-solid fa-robot"></i> AI Research</a></li>
                     </ul>
 
+                    <!-- Advocate Portal Nav Links -->
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1 d-none" id="navAdvocateMenu">
+                        <li class="nav-item"><a class="nav-link-tab active" id="nav-adv-chamber" onclick="switchTab('tab-adv-chamber')"><i class="fa-solid fa-building-columns"></i> Chamber Overview</a></li>
+                        <li class="nav-item"><a class="nav-link-tab" id="nav-adv-causelist" onclick="switchTab('tab-adv-causelist')"><i class="fa-solid fa-gavel"></i> Daily Cause List</a></li>
+                        <li class="nav-item"><a class="nav-link-tab" id="nav-adv-inquiries" onclick="switchTab('tab-adv-inquiries')"><i class="fa-solid fa-calendar-check"></i> Client Inquiries</a></li>
+                        <li class="nav-item"><a class="nav-link-tab" id="nav-adv-briefs" onclick="switchTab('tab-adv-briefs')"><i class="fa-solid fa-briefcase"></i> Active Briefs</a></li>
+                        <li class="nav-item"><a class="nav-link-tab" id="nav-adv-drafts" onclick="switchTab('tab-drafts')"><i class="fa-solid fa-file-signature"></i> Notice Studio</a></li>
+                        <li class="nav-item"><a class="nav-link-tab" id="nav-adv-ai" onclick="switchTab('tab-ai')"><i class="fa-solid fa-brain"></i> Case Precedents AI</a></li>
+                    </ul>
+
                     <div class="d-flex align-items-center gap-2">
                         <button class="btn-theme-toggle me-1" id="themeToggleBtn" title="Toggle Bright / Dark Mode" type="button">
                             <i class="fa-solid fa-sun" id="themeToggleIcon"></i>
                         </button>
-                        <button class="btn btn-modern-primary btn-sm px-4 py-2" onclick="switchTab('tab-cases')">
+                        <button class="btn btn-modern-primary btn-sm px-4 py-2" id="navPrimaryActionBtn" onclick="handlePrimaryAction()">
                             <i class="fa-solid fa-plus me-1"></i> File New Case
                         </button>
                     </div>
@@ -155,14 +198,18 @@
     <!-- Main Content Tabs -->
     <main style="padding-top: 85px; min-height: 80vh;">
 
-        <!-- 1. HERO TAB -->
+        <!-- ========================================== -->
+        <!-- CLIENT PORTAL TABS -->
+        <!-- ========================================== -->
+
+        <!-- 1. HERO TAB (Client) -->
         <section id="tab-hero" class="tab-section active py-4 py-lg-5">
             <div class="container position-relative">
                 <div class="row align-items-center g-5 mb-5">
                     <div class="col-lg-7 text-center text-lg-start">
                         <div class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill mb-4" style="background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.35);">
                             <span class="status-dot" style="background: #06b6d4;"></span>
-                            <span class="small fw-semibold text-white">Next-Gen AI Legal Tech &bull; Cloud Active</span>
+                            <span class="small fw-semibold text-white">Next-Gen AI Legal Tech &bull; Client & Advocate Portals</span>
                         </div>
 
                         <h1 class="display-4 fw-extrabold text-white mb-4 tracking-tight" style="line-height: 1.15;">
@@ -177,8 +224,8 @@
                             <button class="btn btn-modern-primary btn-lg px-4 py-3" onclick="switchTab('tab-cases')">
                                 <i class="fa-solid fa-folder-plus me-2"></i> File New Case
                             </button>
-                            <button class="btn btn-modern-outline btn-lg px-4 py-3" onclick="switchTab('tab-ai')">
-                                <i class="fa-solid fa-wand-magic-sparkles text-info me-2"></i> Try Legal AI Chat
+                            <button class="btn btn-modern-outline btn-lg px-4 py-3" onclick="setPortalMode('advocate')">
+                                <i class="fa-solid fa-scale-balanced text-warning me-2"></i> Open Advocate Portal
                             </button>
                             <button class="btn btn-modern-cyan btn-lg px-4 py-3" onclick="switchTab('tab-drafts')">
                                 <i class="fa-solid fa-file-signature me-2"></i> 13+ Legal Notices
@@ -254,7 +301,7 @@
                     </div>
                 </div>
 
-                <!-- 4 Quick Action Feature Cards -->
+                <!-- 4 Client Cards -->
                 <div class="row g-4">
                     <div class="col-lg-3 col-md-6" onclick="switchTab('tab-cases')" style="cursor: pointer;">
                         <div class="glass-card p-4 h-100">
@@ -277,18 +324,18 @@
                             <p class="text-secondary small mb-0">Generate Cheque Bounce, Eviction, Order 37 & RTI notices with 1-page A4 print.</p>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6" onclick="switchTab('tab-calendar')" style="cursor: pointer;">
-                        <div class="glass-card p-4 h-100">
-                            <div class="stat-icon-wrapper mb-3" style="background: rgba(245, 158, 11, 0.15);"><i class="fa-solid fa-calendar-check text-warning"></i></div>
-                            <h5 class="text-white fw-bold">Hearing Calendar</h5>
-                            <p class="text-secondary small mb-0">Countdown alerts and sequential court appearance timelines.</p>
+                    <div class="col-lg-3 col-md-6" onclick="setPortalMode('advocate')" style="cursor: pointer;">
+                        <div class="glass-card p-4 h-100 border border-purple">
+                            <div class="stat-icon-wrapper mb-3" style="background: rgba(168, 85, 247, 0.2);"><i class="fa-solid fa-scale-balanced text-warning"></i></div>
+                            <h5 class="text-white fw-bold">Advocate Portal</h5>
+                            <p class="text-secondary small mb-0">Chamber docket, daily cause lists, and client consultation bookings.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 2. CASE FILING & DOCKET STUDIO TAB -->
+        <!-- 2. CASE FILING & DOCKET STUDIO TAB (Client) -->
         <section id="tab-cases" class="tab-section py-4">
             <div class="container">
                 <div class="row g-4">
@@ -334,7 +381,7 @@
                                 <!-- AI Advocate Match Banner -->
                                 <div class="p-2 rounded mb-3" id="aiAdvocateMatchBox" style="background: rgba(99, 102, 241, 0.12); border: 1px solid rgba(99, 102, 241, 0.25);">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <small class="text-white fw-bold"><i class="fa-solid fa-wand-magic-sparkles text-info me-1"></i> AI Suggested Counsel: <span class="text-gradient" id="aiMatchedAdvName">Adv. Priya Sharma</span></small>
+                                        <small class="text-white fw-bold"><i class="fa-solid fa-wand-magic-sparkles text-info me-1"></i> AI Suggested Counsel: <span class="text-gradient" id="aiMatchedAdvName">Senior Adv. Priya Sharma</span></small>
                                         <button type="button" class="btn btn-sm btn-modern-primary py-0 px-2" style="font-size: 0.75rem;" onclick="applySuggestedAdvocate()">Assign</button>
                                     </div>
                                 </div>
@@ -407,7 +454,7 @@
             </div>
         </section>
 
-        <!-- 3. VERIFIED ADVOCATES DIRECTORY TAB -->
+        <!-- 3. VERIFIED ADVOCATES DIRECTORY TAB (Client) -->
         <section id="tab-advocates" class="tab-section py-4">
             <div class="container">
                 <div class="glass-panel p-4 mb-4">
@@ -533,7 +580,7 @@
             </div>
         </section>
 
-        <!-- 5. HEARING CALENDAR TAB -->
+        <!-- 5. HEARING CALENDAR TAB (Client) -->
         <section id="tab-calendar" class="tab-section py-4">
             <div class="container">
                 <div class="glass-panel p-4 mb-4" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 27, 75, 0.7) 100%);">
@@ -618,12 +665,288 @@
             </div>
         </section>
 
+        <!-- ========================================== -->
+        <!-- ADVOCATE CHAMBER PORTAL TABS -->
+        <!-- ========================================== -->
+
+        <!-- A1. ADVOCATE CHAMBER OVERVIEW TAB -->
+        <section id="tab-adv-chamber" class="tab-section py-4">
+            <div class="container">
+                <!-- Advocate Profile Banner -->
+                <div class="glass-panel p-4 p-lg-5 mb-4" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(88, 28, 135, 0.7) 100%); border-left: 5px solid #a855f7;">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div style="width: 60px; height: 60px; border-radius: 16px; background: var(--grad-primary); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: white; font-weight: bold; box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);">
+                                PS
+                            </div>
+                            <div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <h3 class="text-white fw-bold mb-0">Senior Adv. Priya Sharma</h3>
+                                    <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 small"><i class="fa-solid fa-circle-check me-1"></i> Bar Verified</span>
+                                </div>
+                                <div class="text-secondary small mt-1">
+                                    <i class="fa-solid fa-id-card text-info me-1"></i> Bar Council Reg: <strong>D/1842/2012</strong> &bull;
+                                    <i class="fa-solid fa-landmark text-warning ms-2 me-1"></i> Practice: High Court of Delhi & Supreme Court
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-modern-outline btn-sm" onclick="switchTab('tab-adv-causelist')">
+                                <i class="fa-solid fa-gavel me-1"></i> View Cause List
+                            </button>
+                            <button class="btn btn-modern-primary btn-sm" onclick="switchTab('tab-drafts')">
+                                <i class="fa-solid fa-file-signature me-1"></i> Draft Client Notice
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advocate KPI Metrics -->
+                <div class="row g-4 mb-4">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="glass-card stat-kpi-card">
+                            <div>
+                                <div class="stat-kpi-value text-white">18</div>
+                                <div class="stat-kpi-label">Active Chamber Briefs</div>
+                                <small class="text-success" style="font-size: 0.72rem;"><i class="fa-solid fa-arrow-up"></i> 3 New this week</small>
+                            </div>
+                            <div class="stat-icon-wrapper" style="background: rgba(99, 102, 241, 0.15);"><i class="fa-solid fa-scale-balanced text-primary"></i></div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="glass-card stat-kpi-card">
+                            <div>
+                                <div class="stat-kpi-value text-warning">4</div>
+                                <div class="stat-kpi-label">Today's Cause List</div>
+                                <small class="text-warning" style="font-size: 0.72rem;"><i class="fa-solid fa-clock"></i> Next at 11:30 AM (Court 4)</small>
+                            </div>
+                            <div class="stat-icon-wrapper" style="background: rgba(245, 158, 11, 0.15);"><i class="fa-solid fa-gavel text-warning"></i></div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="glass-card stat-kpi-card">
+                            <div>
+                                <div class="stat-kpi-value text-info">6</div>
+                                <div class="stat-kpi-label">Client Booking Requests</div>
+                                <small class="text-info" style="font-size: 0.72rem;"><i class="fa-solid fa-user-plus"></i> 2 Awaiting Acceptance</small>
+                            </div>
+                            <div class="stat-icon-wrapper" style="background: rgba(6, 182, 212, 0.15);"><i class="fa-solid fa-calendar-check text-info"></i></div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="glass-card stat-kpi-card">
+                            <div>
+                                <div class="stat-kpi-value text-success">₹8,45,000</div>
+                                <div class="stat-kpi-label">Month Billing / Retainers</div>
+                                <small class="text-success" style="font-size: 0.72rem;"><i class="fa-solid fa-chart-line"></i> +18% vs Last Month</small>
+                            </div>
+                            <div class="stat-icon-wrapper" style="background: rgba(16, 185, 129, 0.15);"><i class="fa-solid fa-indian-rupee-sign text-success"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cause List & Inquiries Preview -->
+                <div class="row g-4">
+                    <div class="col-lg-7">
+                        <div class="glass-panel p-4 h-100">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="text-white fw-bold mb-0"><i class="fa-solid fa-gavel text-warning me-2"></i> Today's Court Appearance Schedule</h5>
+                                <button class="btn btn-sm btn-modern-outline" onclick="switchTab('tab-adv-causelist')">View All</button>
+                            </div>
+                            <div class="d-flex flex-column gap-3">
+                                <div class="p-3 rounded-3" style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.08);">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span class="badge bg-primary text-white">Item No. 14 &bull; Courtroom 4</span>
+                                        <span class="fw-bold text-warning small">10:30 AM</span>
+                                    </div>
+                                    <h6 class="text-white fw-bold mb-1">XYZ Enterprises vs ABC Global Corp</h6>
+                                    <small class="text-secondary d-block"><i class="fa-solid fa-landmark text-info me-1"></i> Delhi High Court &bull; Bench: Hon'ble Justice V. K. Sharma (Commercial Division)</small>
+                                </div>
+                                <div class="p-3 rounded-3" style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.08);">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span class="badge bg-warning text-dark fw-bold">Item No. 28 &bull; Courtroom 9</span>
+                                        <span class="fw-bold text-warning small">02:15 PM</span>
+                                    </div>
+                                    <h6 class="text-white fw-bold mb-1">Apex Finlease vs M/S Tech Solutions</h6>
+                                    <small class="text-secondary d-block"><i class="fa-solid fa-landmark text-info me-1"></i> Patiala House Courts &bull; Special NI Act Court</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="glass-panel p-4 h-100">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="text-white fw-bold mb-0"><i class="fa-solid fa-calendar-check text-info me-2"></i> Client Consultation Inquiries</h5>
+                                <button class="btn btn-sm btn-modern-outline" onclick="switchTab('tab-adv-inquiries')">Manage</button>
+                            </div>
+                            <div class="p-3 rounded-3 mb-3" style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.08);">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h6 class="text-white fw-bold mb-0">Vikram Malhotra (MD, Zenith)</h6>
+                                        <small class="text-secondary">Breach of Software License SLA &bull; ₹1.2 Cr</small>
+                                    </div>
+                                    <span class="badge bg-success small">₹4,500 Paid</span>
+                                </div>
+                                <div class="d-flex gap-2 mt-2">
+                                    <button class="btn btn-sm btn-modern-primary flex-grow-1" onclick="alert('Accepted consultation with Vikram Malhotra!')"><i class="fa-solid fa-check me-1"></i> Accept</button>
+                                    <button class="btn btn-sm btn-modern-outline" onclick="alert('Rescheduled consultation.')"><i class="fa-solid fa-clock-rotate-left"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- A2. ADVOCATE DAILY CAUSE LIST TAB -->
+        <section id="tab-adv-causelist" class="tab-section py-4">
+            <div class="container">
+                <div class="glass-panel p-4 mb-4" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 27, 75, 0.7) 100%);">
+                    <span class="badge bg-warning bg-opacity-25 text-warning mb-2">High Court & Supreme Court Cause List</span>
+                    <h3 class="text-white fw-bold mb-1">Today's Listed Appearances & Item Numbers</h3>
+                    <p class="text-secondary small mb-0">Live court cause list tracking for Advocate Chamber dockets.</p>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="glass-panel p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-primary text-white">Item No. 14 &bull; Courtroom 4</span>
+                                <span class="fw-bold text-warning">10:30 AM</span>
+                            </div>
+                            <h5 class="text-white fw-bold mb-1">XYZ Enterprises vs ABC Global Corp</h5>
+                            <small class="text-secondary d-block mb-2"><i class="fa-solid fa-landmark text-info me-1"></i> Delhi High Court &bull; Bench: Hon'ble Justice V. K. Sharma (Commercial Division)</small>
+                            <div class="p-2 rounded mb-2 small" style="background: rgba(99, 102, 241, 0.1);">
+                                <strong>Stage:</strong> Final Arguments (Order XXXVII CPC Summary Suit)
+                            </div>
+                            <div class="d-flex justify-content-between small text-secondary">
+                                <span>Client: XYZ Enterprises</span>
+                                <span class="text-success fw-bold">Ready for Appearance</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="glass-panel p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-warning text-dark fw-bold">Item No. 28 &bull; Courtroom 9</span>
+                                <span class="fw-bold text-warning">02:15 PM</span>
+                            </div>
+                            <h5 class="text-white fw-bold mb-1">Apex Finlease vs M/S Tech Solutions</h5>
+                            <small class="text-secondary d-block mb-2"><i class="fa-solid fa-landmark text-info me-1"></i> Patiala House Courts &bull; Special NI Act Court</small>
+                            <div class="p-2 rounded mb-2 small" style="background: rgba(245, 158, 11, 0.1);">
+                                <strong>Stage:</strong> Complainant Evidence & Cross Examination
+                            </div>
+                            <div class="d-flex justify-content-between small text-secondary">
+                                <span>Client: Apex Finlease</span>
+                                <span class="text-warning fw-bold">Witness Summoned</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="glass-panel p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-danger text-white">Item No. 4 &bull; Supplementary List</span>
+                                <span class="fw-bold text-warning">03:45 PM</span>
+                            </div>
+                            <h5 class="text-white fw-bold mb-1">State of NCT vs Rahul Verma</h5>
+                            <small class="text-secondary d-block mb-2"><i class="fa-solid fa-landmark text-info me-1"></i> Saket Sessions Court &bull; Courtroom 12</small>
+                            <div class="p-2 rounded mb-2 small" style="background: rgba(244, 63, 94, 0.1);">
+                                <strong>Stage:</strong> Section 438 CrPC Anticipatory Bail Arguments
+                            </div>
+                            <div class="d-flex justify-content-between small text-secondary">
+                                <span>Client: Rahul Verma</span>
+                                <span class="text-danger fw-bold">Urgent Listing</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="glass-panel p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-success text-white">Item No. 32 &bull; Courtroom 1</span>
+                                <span class="fw-bold text-warning">04:30 PM</span>
+                            </div>
+                            <h5 class="text-white fw-bold mb-1">Dr. S. K. Roy vs National Medical Commission</h5>
+                            <small class="text-secondary d-block mb-2"><i class="fa-solid fa-landmark text-info me-1"></i> Supreme Court of India &bull; Chief Justice Bench</small>
+                            <div class="p-2 rounded mb-2 small" style="background: rgba(16, 185, 129, 0.1);">
+                                <strong>Stage:</strong> Special Leave Petition (SLP Civil) Admission
+                            </div>
+                            <div class="d-flex justify-content-between small text-secondary">
+                                <span>Client: Dr. S.K. Roy</span>
+                                <span class="text-success fw-bold">Senior Brief Ready</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- A3. ADVOCATE CLIENT INQUIRIES & BOOKINGS TAB -->
+        <section id="tab-adv-inquiries" class="tab-section py-4">
+            <div class="container">
+                <div class="glass-panel p-4 mb-4" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(6, 78, 59, 0.5) 100%);">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="text-white fw-bold mb-1">Chamber Consultation Inquiries & Retainers</h3>
+                            <small class="text-secondary">Manage verified client booking requests, chamber video conferences, and in-person consultations.</small>
+                        </div>
+                        <span class="badge bg-success bg-opacity-25 text-success fs-6">6 Inquiries Active</span>
+                    </div>
+                </div>
+
+                <div class="row g-4" id="advInquiriesGrid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- A4. ADVOCATE ACTIVE BRIEFS & VAKALATNAMA TAB -->
+        <section id="tab-adv-briefs" class="tab-section py-4">
+            <div class="container">
+                <div class="glass-panel p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h4 class="text-white fw-bold mb-1">Advocate Chamber Briefs & Vakalatnama Registry</h4>
+                            <small class="text-secondary">Track active retainer briefs, pending filings, and decree executions.</small>
+                        </div>
+                        <button class="btn btn-modern-primary btn-sm" onclick="switchTab('tab-cases')"><i class="fa-solid fa-plus me-1"></i> Add Client Brief</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Client / Matter Title</th>
+                                    <th>Court Jurisdiction</th>
+                                    <th>Statutory Classification</th>
+                                    <th>Next Listing</th>
+                                    <th>Vakalatnama Status</th>
+                                    <th>Fee Retainer</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="advBriefsTableBody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- Footer -->
     <footer class="py-4 border-top border-secondary border-opacity-25 text-center text-secondary small" style="background: #060a17;">
         <div class="container">
-            <p class="mb-1">Enterprise-grade AI Platform for Indian Courts & Statutory Research &bull; Deployed on Vercel</p>
+            <p class="mb-1">Enterprise-grade Dual AI Platform (Client Portal & Advocate Chambers) &bull; Live Deployed</p>
             <p class="text-muted mb-0">Copyright &copy; 2026 LegalTech AI Platform. All rights reserved.</p>
         </div>
     </footer>
@@ -651,6 +974,38 @@
             { id: 3, title: "Apex Finlease vs M/S Tech Solutions", type: "Section 138 NI Act (Cheque Bounce)", court: "Patiala House Courts", hearing: "2026-11-05", status: "Active", lawyer: "Adv. Arvind Saxena" }
         ];
 
+        let currentPortalMode = 'client';
+
+        // Portal Switcher Function
+        function setPortalMode(mode) {
+            currentPortalMode = mode;
+            if (mode === 'advocate') {
+                $('#btnModeAdvocate').addClass('active');
+                $('#btnModeClient').removeClass('active');
+                $('#portalBadgeLabel').text('ADVOCATE CHAMBER');
+                $('#navClientMenu').addClass('d-none');
+                $('#navAdvocateMenu').removeClass('d-none');
+                $('#navPrimaryActionBtn').html('<i class="fa-solid fa-file-signature me-1"></i> Draft Notice').attr('onclick', "switchTab('tab-drafts')");
+                switchTab('tab-adv-chamber');
+            } else {
+                $('#btnModeClient').addClass('active');
+                $('#btnModeAdvocate').removeClass('active');
+                $('#portalBadgeLabel').text('CLIENT PORTAL');
+                $('#navAdvocateMenu').addClass('d-none');
+                $('#navClientMenu').removeClass('d-none');
+                $('#navPrimaryActionBtn').html('<i class="fa-solid fa-plus me-1"></i> File New Case').attr('onclick', "switchTab('tab-cases')");
+                switchTab('tab-hero');
+            }
+        }
+
+        function handlePrimaryAction() {
+            if (currentPortalMode === 'advocate') {
+                switchTab('tab-drafts');
+            } else {
+                switchTab('tab-cases');
+            }
+        }
+
         // Tab Switching
         function switchTab(tabId) {
             $('.tab-section').removeClass('active');
@@ -660,10 +1015,14 @@
             if (tabId === 'tab-hero') $('#nav-hero').addClass('active');
             else if (tabId === 'tab-cases') { $('#nav-cases').addClass('active'); renderCasesTable(); }
             else if (tabId === 'tab-advocates') { $('#nav-advocates').addClass('active'); renderAdvocates(initialAdvocates); }
-            else if (tabId === 'tab-drafts') { $('#nav-drafts').addClass('active'); renderDraftPreview(); }
+            else if (tabId === 'tab-drafts') { $('#nav-drafts, #nav-adv-drafts').addClass('active'); renderDraftPreview(); }
             else if (tabId === 'tab-calendar') { $('#nav-calendar').addClass('active'); renderCalendar(); }
             else if (tabId === 'tab-vault') { $('#nav-vault').addClass('active'); renderVault(); }
-            else if (tabId === 'tab-ai') { $('#nav-ai').addClass('active'); }
+            else if (tabId === 'tab-ai') { $('#nav-ai, #nav-adv-ai').addClass('active'); }
+            else if (tabId === 'tab-adv-chamber') { $('#nav-adv-chamber').addClass('active'); }
+            else if (tabId === 'tab-adv-causelist') { $('#nav-adv-causelist').addClass('active'); }
+            else if (tabId === 'tab-adv-inquiries') { $('#nav-adv-inquiries').addClass('active'); renderAdvInquiries(); }
+            else if (tabId === 'tab-adv-briefs') { $('#nav-adv-briefs').addClass('active'); renderAdvBriefs(); }
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -790,7 +1149,6 @@
                 return matchQ && matchC && matchS;
             });
 
-            // If user searched a custom name not in list, dynamically generate a verified card for that advocate
             if (filtered.length === 0 && query.length > 2) {
                 filtered = [{
                     name: "Adv. " + query.toUpperCase(),
@@ -808,6 +1166,69 @@
             }
 
             renderAdvocates(filtered);
+        }
+
+        // Advocate Inquiries Render
+        function renderAdvInquiries() {
+            const grid = $('#advInquiriesGrid');
+            grid.empty();
+            const inquiries = [
+                { client: "Vikram Malhotra (MD, Zenith Infotech)", matter: "Breach of Software License SLA & Claim of ₹1.2 Cr", fee: "₹4,500 Paid", time: "Tomorrow, 05:00 PM", mode: "Chamber Video Call" },
+                { client: "Suresh Goyal (Proprietor, Apex Traders)", matter: "Section 138 Cheque Dishonour of ₹38 Lakhs", fee: "₹4,500 Paid", time: "06 Oct, 04:30 PM", mode: "Chamber In-Person" },
+                { client: "Meera Krishnan (Executive Director)", matter: "Trademark & Copyright Passing Off Notice", fee: "₹5,000 Paid", time: "07 Oct, 11:00 AM", mode: "Chamber Video Call" },
+                { client: "Rajeshwar Rao (Builder & Developer)", matter: "Section 18 RERA Appeal & Buyer Compensation", fee: "₹6,000 Paid", time: "08 Oct, 03:00 PM", mode: "Chamber In-Person" }
+            ];
+            inquiries.forEach((inq, index) => {
+                grid.append(`
+                    <div class="col-lg-6" id="inquiryCard-${index}">
+                        <div class="glass-panel p-4 h-100 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h5 class="text-white fw-bold mb-1">${inq.client}</h5>
+                                        <small class="text-info fw-semibold">${inq.matter}</small>
+                                    </div>
+                                    <span class="badge bg-success small">${inq.fee}</span>
+                                </div>
+                                <div class="small text-secondary mb-3">
+                                    <i class="fa-solid fa-calendar text-warning me-1"></i> ${inq.time} &bull; <i class="fa-solid fa-video text-info ms-2 me-1"></i> ${inq.mode}
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-modern-primary btn-sm flex-grow-1" onclick="alert('Accepted consultation with ${inq.client}!'); $('#inquiryCard-${index}').fadeOut();"><i class="fa-solid fa-check me-1"></i> Accept Booking</button>
+                                <button class="btn btn-modern-outline btn-sm px-3" onclick="alert('Reschedule notification sent to ${inq.client}.')"><i class="fa-solid fa-clock-rotate-left"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            });
+        }
+
+        // Advocate Briefs Render
+        function renderAdvBriefs() {
+            const tbody = $('#advBriefsTableBody');
+            tbody.empty();
+            const briefs = [
+                { client: "XYZ Enterprises Ltd", court: "Delhi High Court (Commercial)", category: "O.37 CPC Summary Recovery", hearing: "18 Oct 2026", vakalat: "Filed (D-4481)", fee: "₹75,000 / Retainer" },
+                { client: "Apex Finlease Corp", court: "Patiala House Courts", category: "Section 138 NI Act Cheque", hearing: "24 Oct 2026", vakalat: "Filed (D-1902)", fee: "₹45,000 / Hearing" },
+                { client: "Rahul Verma (Accused)", court: "Saket Sessions Court", category: "Sec 438 Anticipatory Bail", hearing: "05 Nov 2026", vakalat: "Under Execution", fee: "₹60,000 / Brief" },
+                { client: "Dr. S. K. Roy", court: "Supreme Court of India", category: "Special Leave Petition (Civil)", hearing: "12 Nov 2026", vakalat: "Senior Brief Sealed", fee: "₹1,50,000 / Retainer" }
+            ];
+            briefs.forEach(b => {
+                tbody.append(`
+                    <tr>
+                        <td><strong class="text-white">${b.client}</strong></td>
+                        <td><small class="text-secondary">${b.court}</small></td>
+                        <td><span class="badge bg-dark border border-secondary border-opacity-25 small text-light">${b.category}</span></td>
+                        <td><span class="fw-semibold text-warning small">${b.hearing}</span></td>
+                        <td><span class="badge bg-success bg-opacity-25 text-success small">${b.vakalat}</span></td>
+                        <td><strong class="text-gradient small">${b.fee}</strong></td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-light py-1 px-2" onclick="alert('Opened brief file for ${b.client}!')"><i class="fa-solid fa-folder-open text-info"></i></button>
+                        </td>
+                    </tr>
+                `);
+            });
         }
 
         // 13+ Legal Drafts Generator
@@ -847,13 +1268,8 @@
             $('#draftPreviewPaper').html(txt);
         }
 
-        function printDraft() {
-            window.print();
-        }
-
-        function copyDraft() {
-            navigator.clipboard.writeText($('#draftPreviewPaper').text()).then(() => alert('Notice text copied to clipboard!'));
-        }
+        function printDraft() { window.print(); }
+        function copyDraft() { navigator.clipboard.writeText($('#draftPreviewPaper').text()).then(() => alert('Notice text copied to clipboard!')); }
 
         // Calendar Render
         function renderCalendar() {
@@ -1011,6 +1427,8 @@
             renderDraftPreview();
             renderCalendar();
             renderVault();
+            renderAdvInquiries();
+            renderAdvBriefs();
         });
     </script>
 </body>
